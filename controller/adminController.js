@@ -1,6 +1,7 @@
 const Admin = require('../models/adminModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const createToken = require('../utils/genToken');
 
 exports.register = async(req, res)=> {
     const { lastName, firstName, userName, email, password } = req.body;
@@ -35,7 +36,8 @@ exports.register = async(req, res)=> {
             email: req.body.email,
             password: hashPassword
         });
-        res.status(201).json({message: 'Admin Created...', newAdmin});
+        const token = createToken(newAdmin._id);
+        res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id, token});
     } catch (err) {
         console.log(err.message)
         res.status(400).json({errors: err.message});

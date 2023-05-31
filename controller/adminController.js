@@ -57,7 +57,7 @@ exports.access = async(req, res)=> {
             const checkPassword = await bcrypt.compare(password, checkDatas.password);
             if(checkPassword) {
                 const token = createToken(checkDatas._id);
-                res.status(200).json({message: 'Login Successful', Admin: checkDatas._id, token});
+                return res.status(200).json({message: 'Login Successful', Admin: checkDatas._id, token});
             }
             throw new Error('Incorrect Password');
         }

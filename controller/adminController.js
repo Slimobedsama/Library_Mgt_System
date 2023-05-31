@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const createToken = require('../utils/genToken');
 
+// SIGNUP
 exports.register = async(req, res)=> {
     const { lastName, firstName, userName, email, password } = req.body;
     try {
@@ -40,6 +41,28 @@ exports.register = async(req, res)=> {
         res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id, token});
     } catch (err) {
         console.log(err.message)
+        res.status(400).json({errors: err.message});
+    }
+}
+
+// LOGIN
+exports.access = async(req, res)=> {
+    const { userName, email, password } = req.body;
+    try {
+        // LOGIN VALIDATION
+        const checkMail = await Admin.findOne({email});
+        const checkUserName = await Admin.findOne({userName});
+        const checkDatas = checkMail || checkUserName;
+        if(checkDatas) {
+            const checkPassword = await bcrypt.compare(password, checkDatas.password);
+            if(checkPassword) {
+                const token = createToken(checkDatas._id);
+                res.status(200).json({message: 'Login Successful', Admin: checkDatas._id, token});
+            }
+            throw new Error('Incorrect Password');
+        }
+        throw new Error('Incorrect Email Or Username');
+    } catch (err) {
         res.status(400).json({errors: err.message});
     }
 }

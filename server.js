@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./config/db');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const adminRouter = require('./routes/adminRoute');
 
 db();
@@ -12,6 +13,8 @@ const PORT = process.env.PORT  || 8000;
 app.use(express.json());
 // ENCODED URL PARSER MIDDLEWARE
 app.use(express.urlencoded({extended: true}));
+// COOKIE MIDDLEWARE
+app.use(cookieParser());
 // MORGAN MIDDLEWARE
 app.use(morgan('dev'));
 // ROUTES MIDDLEWARES

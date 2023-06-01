@@ -5,7 +5,7 @@ const adminAuth = (req, res)=> {
     if(token) {
         jwt.verify(token, process.env.JWT_KEY, (err, decoded)=> {
             if(err) {
-                res.status(401).json({error: 'Unauthorized'});
+                res.status(401).json({error: 'Unauthorized Access'});
             } else {
                 next();
             }

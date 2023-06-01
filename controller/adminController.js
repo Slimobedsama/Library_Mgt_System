@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const createToken = require('../utils/genToken');
 
+// COOKIE-PARSER EXPIRATION
+const EXPIRES = 2 * 60 * 60 * 1000;
+
 // SIGNUP
 exports.register = async(req, res)=> {
     const { lastName, firstName, userName, email, password } = req.body;
@@ -38,7 +41,8 @@ exports.register = async(req, res)=> {
             password: hashPassword
         });
         const token = createToken(newAdmin._id);
-        res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id, token});
+        res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+        res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id});
     } catch (err) {
         console.log(err.message)
         res.status(400).json({errors: err.message});
@@ -57,7 +61,8 @@ exports.access = async(req, res)=> {
             const checkPassword = await bcrypt.compare(password, checkDatas.password);
             if(checkPassword) {
                 const token = createToken(checkDatas._id);
-                return res.status(200).json({message: 'Login Successful', Admin: checkDatas._id, token});
+                res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+                return res.status(200).json({message: 'Login Successful', Admin: checkDatas._id});
             }
             throw new Error('Incorrect Password');
         }

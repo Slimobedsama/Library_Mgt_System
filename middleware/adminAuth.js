@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const adminAuth = (req, res)=> {
-    const token = req.headers.authorization;
+    const token = req.cookie.jwt;
     if(token) {
         jwt.verify(token, process.env.JWT_KEY, (err, decoded)=> {
             if(err) {

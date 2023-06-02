@@ -51,3 +51,13 @@ exports.create = async(req, res, next)=> {
     }
     next();
 }
+
+exports.all = async(req, res, next)=> {
+    try {
+        const allLibrarian = await Librarian.find().sort({firstName: 'asc'});
+        res.status(200).json(allLibrarian);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+}

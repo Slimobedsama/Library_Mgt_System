@@ -6,11 +6,11 @@ const createToken = require('../utils/genToken');
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
 
-exports.create = async(req, res)=> {
+exports.create = async(req, res, next)=> {
     const { lastName, firstName, userName, email, phone, password } = req.body;
     try {
-        const checkMail = await Admin.findOne({email});
-        const checkUserName = await Admin.findOne({userName});
+        const checkMail = await Librarian.findOne({email});
+        const checkUserName = await Librarian.findOne({userName});
         // LIBRARIAN VALIDATION
         if(checkMail) {
             throw new Error('Email Exists');
@@ -32,7 +32,7 @@ exports.create = async(req, res)=> {
             throw new Error('Password Is Weak, Must Be A minimum Of 6 Characters, 1 Uppercase, 1 Lowercase & 1 Number');
         }
         // PASSWORD HASHING
-        const encryptedPassword = bcrypt.hash(password, 12);
+        const encryptedPassword = await bcrypt.hash(password, 12);
         // CREATES A LABRARIAN
         const createLibrarian = await Librarian.create({
             lastName: req.body.lastName,
@@ -46,7 +46,8 @@ exports.create = async(req, res)=> {
         const token = createToken(createLibrarian._id);
         res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
         return res.status(201).json({message: 'Successful Creation', Librarian: createLibrarian._id});
-    } catch (err) {
+    } catch (err) {Librarian
         res.status(400).json({errors: err.message});
     }
+    next();
 }

@@ -1,7 +1,8 @@
 const express = require('express');
 const Router = express.Router();
 const librarianController = require('../controller/librarianController');
+const adminAuth = require('../middleware/adminAuth')
 
-Router.post('/signup', librarianController.create);
+Router.post('/signup', adminAuth, librarianController.create);
 
 module.exports = Router;

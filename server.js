@@ -6,6 +6,7 @@ const db = require('./config/db');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const adminRouter = require('./routes/adminRoute');
+const librarianRouter = require('./routes/librarianRoute');
 
 db();
 const PORT = process.env.PORT  || 8000;
@@ -19,5 +20,6 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 // ROUTES MIDDLEWARES
 app.use('/api/admin', adminRouter);
+app.use('/api/librarian', librarianRouter);
 
 app.listen(PORT, ()=> console.log(`Server listening on port ${PORT}`));

@@ -61,3 +61,26 @@ exports.all = async(req, res, next)=> {
         res.status(500).json({error: 'Internal Server Error'});
     }
 }
+
+exports.gainAccess = async(req, res)=> {
+    const { userName, phone, password } = req.body;
+    try {
+        const checkUserName = await Librarian.findOne({userName});
+        const checkPhone = await Librarian.findOne({phone});
+        const checkData = checkUserName || checkPhone;
+        // VALIDATE PASSWORD AND DATAS
+        if(checkData) {
+            const checkPassword = await bcrypt.compare(password, checkData.password);
+            if(checkPassword) {
+                const token = createToken(checkData._id);
+                res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+                return res.status(200).json({message: 'Successful Login', Librarian: checkData._id});
+            }
+            throw new Error('Incorrect Password');
+        }
+        throw new Error('Incorrect Username or Mobile Number');
+    } catch (err) {
+        console.log(err)
+        res.status(400).json({errors: err.message});
+    }
+}

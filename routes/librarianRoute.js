@@ -6,6 +6,7 @@ const adminAuth = require('../middleware/adminAuth')
 Router.get('/all', adminAuth, librarianController.all);
 Router.post('/signup', adminAuth, librarianController.create);
 Router.post('/login', librarianController.gainAccess);
+Router.patch('/:id', librarianController.modify);
 Router.delete('/:id', adminAuth, librarianController.remove);
 
 module.exports = Router;

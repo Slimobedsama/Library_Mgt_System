@@ -86,6 +86,24 @@ exports.gainAccess = async(req, res)=> {
     }
 }
 
+exports.modify = async(req, res)=> {
+    const id = req.params.id;
+    const {lastName, firstName, userName, phone} = req.body;
+    try {
+        const updateData = await Librarian.findByIdAndUpdate(id, req.body, {new: true});
+        if(updateData) {
+            if(lastName || firstName || userName || phone) {
+                return res.status(201).json({message: 'Update Successful', updateData});
+            }
+            throw new Error('Only Last Name, First Name, userName & Mobile can be updated');
+        }
+        return res.status(404).json({errors: `Librarian with id ${id} not found`});
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).json({errors: err.message});
+    }
+}
+
 exports.remove = async(req, res, next)=> {
     const id = req.params.id;
     try {
@@ -99,4 +117,5 @@ exports.remove = async(req, res, next)=> {
         console.log(err.message)
         res.status(404).json({error: err.message})
     }
+    next();
 }

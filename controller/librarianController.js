@@ -86,7 +86,7 @@ exports.gainAccess = async(req, res)=> {
     }
 }
 
-exports.modify = async(req, res)=> {
+exports.modify = async(req, res, next)=> {
     const id = req.params.id;
     const {lastName, firstName, userName, phone} = req.body;
     try {
@@ -102,6 +102,7 @@ exports.modify = async(req, res)=> {
         console.log(err.message)
         res.status(400).json({errors: err.message});
     }
+    next();
 }
 
 exports.remove = async(req, res, next)=> {

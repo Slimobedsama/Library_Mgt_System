@@ -6,6 +6,16 @@ const createToken = require('../utils/genToken');
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
 
+exports.all = async(req, res, next)=> {
+    try {
+        const allLibrarian = await Librarian.find().sort({firstName: 'asc'});
+        res.status(200).json(allLibrarian);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+}
+
 exports.create = async(req, res, next)=> {
     const { lastName, firstName, userName, email, phone, password } = req.body;
     try {
@@ -52,15 +62,6 @@ exports.create = async(req, res, next)=> {
     next();
 }
 
-exports.all = async(req, res, next)=> {
-    try {
-        const allLibrarian = await Librarian.find().sort({firstName: 'asc'});
-        res.status(200).json(allLibrarian);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({error: 'Internal Server Error'});
-    }
-}
 
 exports.gainAccess = async(req, res)=> {
     const { userName, phone, password } = req.body;
@@ -82,5 +83,20 @@ exports.gainAccess = async(req, res)=> {
     } catch (err) {
         console.log(err)
         res.status(400).json({errors: err.message});
+    }
+}
+
+exports.remove = async(req, res, next)=> {
+    const id = req.params.id;
+    try {
+        const delLib = await Librarian.findByIdAndDelete(id);
+        if(!delLib) {
+            throw new Error(`Librarian with id ${id} not found.`);
+        } else {
+            res.status(200).json({message: `Librarian with id ${id} deleted...`, delLib});
+        }
+    } catch (err) {
+        console.log(err.message)
+        res.status(404).json({error: err.message})
     }
 }

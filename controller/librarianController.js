@@ -93,7 +93,7 @@ exports.remove = async(req, res, next)=> {
         if(!delLib) {
             throw new Error(`Librarian with id ${id} not found.`);
         } else {
-            res.status(200).json({message: `Librarian with id ${id} deleted...`, delLib});
+            res.status(200).json({message: `Librarian with id ${id} deleted...`, delLib:delLib._id});
         }
     } catch (err) {
         console.log(err.message)

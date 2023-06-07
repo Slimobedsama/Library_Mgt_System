@@ -17,6 +17,20 @@ exports.all = async(req, res, next)=> {
     next();
 }
 
+exports.getOne = async(req, res, next)=> {
+    const id = req.params.id;
+    try {
+        const single = await Librarian.findById(id);
+        if(single) {
+            return res.status(200).json({message: `Found librarian with id ${id}`, single});
+        }
+        throw new Error(`Librarian with id ${id} not found`);
+    } catch (err) {
+        res.status(404).json({errors: err.message});
+    }
+    next();
+}
+
 exports.create = async(req, res, next)=> {
     const { lastName, firstName, userName, email, phone, password } = req.body;
     try {

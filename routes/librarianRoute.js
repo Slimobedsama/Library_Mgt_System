@@ -5,6 +5,7 @@ const adminAuth = require('../middleware/adminAuth');
 const librarianAuth = require('../middleware/librarianAuth');
 
 Router.get('/all', adminAuth, librarianController.all);
+Router.get('/:id', adminAuth, librarianController.getOne);
 Router.post('/signup', adminAuth, librarianController.create);
 Router.post('/login', librarianController.gainAccess);
 Router.patch('/:id', librarianAuth, librarianController.modify);

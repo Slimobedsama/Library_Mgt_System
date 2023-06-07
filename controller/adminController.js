@@ -1,7 +1,7 @@
 const Admin = require('../models/adminModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const createToken = require('../utils/genToken');
+const {adminToken} = require('../utils/genToken');
 
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
@@ -40,7 +40,7 @@ exports.register = async(req, res)=> {
             email: req.body.email,
             password: hashPassword
         });
-        const token = createToken(newAdmin._id);
+        const token = adminToken(newAdmin._id);
         res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
         res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id});
     } catch (err) {
@@ -60,7 +60,7 @@ exports.access = async(req, res)=> {
         if(checkDatas) {
             const checkPassword = await bcrypt.compare(password, checkDatas.password);
             if(checkPassword) {
-                const token = createToken(checkDatas._id);
+                const token = adminToken(checkDatas._id);
                 res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
                 return res.status(200).json({message: 'Login Successful', Admin: checkDatas._id});
             }

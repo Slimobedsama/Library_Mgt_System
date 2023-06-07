@@ -1,7 +1,7 @@
 const Librarian = require('../models/librarianModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const createToken = require('../utils/genToken');
+const {librarianToken} = require('../utils/genToken');
 
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
@@ -14,6 +14,7 @@ exports.all = async(req, res, next)=> {
         console.log(err);
         res.status(500).json({error: 'Internal Server Error'});
     }
+    next();
 }
 
 exports.create = async(req, res, next)=> {
@@ -53,7 +54,7 @@ exports.create = async(req, res, next)=> {
             password: encryptedPassword
         });
         // CREATES JWT TOKEN
-        const token = createToken(createLibrarian._id);
+        const token = librarianToken(createLibrarian._id);
         res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
         return res.status(201).json({message: 'Successful Creation', Librarian: createLibrarian._id});
     } catch (err) {Librarian
@@ -73,7 +74,7 @@ exports.gainAccess = async(req, res)=> {
         if(checkData) {
             const checkPassword = await bcrypt.compare(password, checkData.password);
             if(checkPassword) {
-                const token = createToken(checkData._id);
+                const token = librarianToken(checkData._id);
                 res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
                 return res.status(200).json({message: 'Successful Login', Librarian: checkData._id});
             }

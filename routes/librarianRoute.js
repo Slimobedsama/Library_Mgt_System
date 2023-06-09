@@ -1,8 +1,7 @@
 const express = require('express');
 const Router = express.Router();
 const librarianController = require('../controller/librarianController');
-const adminAuth = require('../middleware/adminAuth');
-const librarianAuth = require('../middleware/librarianAuth');
+const {adminAuth, librarianAuth} = require('../middleware/auth');
 
 Router.get('/all', adminAuth, librarianController.all);
 Router.get('/:id', adminAuth, librarianController.getOne);

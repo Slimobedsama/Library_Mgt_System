@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const adminRouter = require('./routes/adminRoute');
 const librarianRouter = require('./routes/librarianRoute');
 
-db();
 const PORT = process.env.PORT  || 8000;
 // JSON PARSER MIDDLEWARE
 app.use(express.json());
@@ -22,4 +21,5 @@ app.use(morgan('dev'));
 app.use('/api/admin', adminRouter);
 app.use('/api/librarian', librarianRouter);
 
-app.listen(PORT, ()=> console.log(`Server listening on port ${PORT}`));
+db().then((result)=> app.listen(PORT, ()=> console.log(`Server listening on port ${PORT}`)))
+.catch((err)=> console.log(err))

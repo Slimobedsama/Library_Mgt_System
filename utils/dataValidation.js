@@ -1,6 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const Admin = require('../models/adminModel');
 
+// ADMIN VALIDATION
 const adminSingupVal = 
 [
     body('lastName').notEmpty().withMessage('Enter Last Name'),

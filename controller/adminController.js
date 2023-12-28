@@ -31,22 +31,20 @@ exports.register = async(req, res)=> {
 
 // LOGIN
 exports.access = async(req, res)=> {
-    const { userName, email, password } = req.body;
+    const { email, password } = req.body;
     try {
         // LOGIN VALIDATION
         const checkMail = await Admin.findOne({email});
-        const checkUserName = await Admin.findOne({userName});
-        const checkDatas = checkMail || checkUserName;
-        if(checkDatas) {
-            const checkPassword = await bcrypt.compare(password, checkDatas.password);
+        if(checkMail) {
+            const checkPassword = await bcrypt.compare(password, checkMail.password);
             if(checkPassword) {
-                const token = adminToken(checkDatas._id);
+                const token = adminToken(checkMail._id);
                 res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
-                return res.status(200).json({message: 'Login Successful', Admin: checkDatas._id});
+                return res.status(200).json({message: 'Login Successful', Admin: checkMail._id});
             }
             throw new Error('Incorrect Password');
         }
-        throw new Error('Incorrect Email Or Username');
+        throw new Error('This Email Is Not Found');
     } catch (err) {
         res.status(400).json({errors: err.message});
     }

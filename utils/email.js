@@ -17,3 +17,5 @@ const emailSender = async(info)=> {
         console.log(err.message)
     }
 }
+
+module.exports = emailSender;

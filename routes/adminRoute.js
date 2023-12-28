@@ -3,6 +3,7 @@ const Router = express.Router();
 const adminController = require('../controller/adminController');
 const { adminSingupVal } = require('../utils/dataValidation');
 
+Router.get('/', adminController.allAdmin);
 Router.post('/is-admin-signup', adminSingupVal, adminController.register);
 Router.post('/login', adminController.access);
 

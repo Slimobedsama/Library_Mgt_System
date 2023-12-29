@@ -1,6 +1,5 @@
 const Admin = require('../models/adminModel');
 const bcrypt = require('bcrypt');
-const validator = require('validator');
 const { adminToken, passToken } = require('../utils/genToken');
 const emailSender = require('../utils/email');
 
@@ -95,7 +94,7 @@ exports.lostPass = async(req, res)=> {
 }
 
 // ADMIN RESET PASSWORD
-exports.retrievePass = async(req, res)=> {
+exports.retrievePass = async(req, res, next)=> {
     const { password } = req.body;
     const id = req.params.id;
     try {
@@ -109,4 +108,5 @@ exports.retrievePass = async(req, res)=> {
         console.log(err.message)
         res.status(400).json({ error: err.message });
     }
+    next();
 }

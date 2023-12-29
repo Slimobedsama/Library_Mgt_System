@@ -1,7 +1,7 @@
 const Admin = require('../models/adminModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const {adminToken} = require('../utils/genToken');
+const { adminToken, passToken } = require('../utils/genToken');
 const emailSender = require('../utils/email');
 
 // COOKIE-PARSER EXPIRATION
@@ -66,5 +66,47 @@ exports.access = async(req, res)=> {
         throw new Error('This Email Is Not Found');
     } catch (err) {
         res.status(400).json({errors: err.message});
+    }
+}
+
+// ADMIN FORGOTTEN PASSWORD
+exports.lostPass = async(req, res)=> {
+    const { email } = req.body;
+    try {
+        // CHECK FOR EXISTING EMAIL
+        const findEmail = await Admin.findOne({ email });
+        if(!findEmail) {
+            throw new Error('This Email Is Not Found');
+        }
+        // GENERATE TOKEN
+        const resetToken = passToken(findEmail._id);
+        res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
+        // SEND EMAIL WITH TOKEN
+        await emailSender({
+            from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
+            to: 'slimobedsama@yahoo.com',
+            subject: 'Password Reset Link',
+            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admin/reset-password">${resetToken}</a></h2>`
+        })
+        return res.status(200).json({ message: 'Email Sent' });
+    } catch (err) {
+        res.status(404).json({ error: err.message});
+    }
+}
+
+// ADMIN RESET PASSWORD
+exports.retrievePass = async(req, res)=> {
+    const { password } = req.body;
+    const id = req.params.id;
+    try {
+        // FIND ADMIN ID
+        const findId = await Admin.findOne({ id });
+        // HASH PASSWORD
+        const encryptPassword = await bcrypt.hash(password, 12);
+        findId.password = encryptPassword;
+        res.status(201).json({ message: 'Password Reset Successful' });
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).json({ error: err.message });
     }
 }

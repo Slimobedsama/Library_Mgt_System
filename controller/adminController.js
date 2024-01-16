@@ -77,15 +77,16 @@ exports.lostPass = async(req, res)=> {
         if(!findEmail) {
             throw new Error('This Email Is Not Found');
         }
+        const userId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
         const resetToken = passToken(findEmail._id);
         res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
-        // SEND EMAIL WITH TOKEN
+        // // SEND EMAIL WITH TOKEN
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
             to: 'slimobedsama@yahoo.com',
             subject: 'Password Reset Link',
-            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admin/reset-password">${resetToken}</a></h2>`
+            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admin/reset-password/${userId}">${resetToken}</a></h2>`
         })
         return res.status(200).json({ message: 'Email Sent' });
     } catch (err) {
@@ -99,10 +100,11 @@ exports.retrievePass = async(req, res, next)=> {
     const id = req.params.id;
     try {
         // FIND ADMIN ID
-        const findId = await Admin.findOne({ id });
+        const findId = await Admin.findById(id);
         // HASH PASSWORD
         const encryptPassword = await bcrypt.hash(password, 12);
         findId.password = encryptPassword;
+        findId.save();
         res.status(201).json({ message: 'Password Reset Successful' });
     } catch (err) {
         console.log(err.message)

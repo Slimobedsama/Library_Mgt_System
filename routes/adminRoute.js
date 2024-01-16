@@ -8,6 +8,6 @@ Router.get('/', adminController.allAdmin);
 Router.post('/is-admin-signup', adminSingupVal, adminController.register);
 Router.post('/login', adminController.access);
 Router.post('/forgotten-password', adminController.lostPass);
-Router.post('/reset-password', resetAuth, resetPassValidate, adminController.retrievePass);
+Router.post('/reset-password/:id', resetAuth, resetPassValidate, adminController.retrievePass);
 
 module.exports = Router;

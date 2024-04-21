@@ -32,7 +32,7 @@ exports.getOne = async(req, res, next)=> {
 }
 
 exports.create = async(req, res, next)=> {
-    const { lastName, firstName, userName, email, phone, password } = req.body;
+    const { lastName, firstName, email, phone, password } = req.body;
     try {
         const checkMail = await Librarian.findOne({email});
         const checkUserName = await Librarian.findOne({userName});
@@ -62,7 +62,6 @@ exports.create = async(req, res, next)=> {
         const createLibrarian = await Librarian.create({
             lastName: req.body.lastName,
             firstName: req.body.firstName,
-            userName: req.body.userName,
             email: req.body.email,
             phone: req.body.phone,
             password: encryptedPassword

@@ -2,7 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const adminController = require('../controller/adminController');
 const { resetAuth } = require('../middleware/auth');
-const { adminSingupVal, resetPassValidate } = require('../utils/dataValidation');
+const { adminSingupVal, resetPassValidate } = require('../utils/adminValidation');
 
 Router.get('/', adminController.allAdmin);
 Router.post('/is-admin-signup', adminSingupVal, adminController.register);

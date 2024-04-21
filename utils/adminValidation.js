@@ -6,10 +6,6 @@ const adminSingupVal =
 [
     body('lastName').notEmpty().withMessage('Enter Last Name'),
     body('firstName').notEmpty().withMessage('Enter First Name'),
-    body('userName').notEmpty().withMessage('Enter username').custom(async value => {
-        const checkUsername = await Admin.findOne({ userName: value });
-        if (checkUsername) throw new Error("This Username Already Exists");
-    }),
     body('email').isEmail().withMessage('Enter A Valid Email Address').custom(async value => {
         const checkEmail = await Admin.findOne({ email: value });
         if (checkEmail) throw new Error("This Email Already Exists");

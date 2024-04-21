@@ -20,7 +20,7 @@ exports.allAdmin = async(req, res, next)=> {
 
 // SIGNUP
 exports.register = async(req, res)=> {
-    const { lastName, firstName, userName, email, password } = req.body;
+    const { lastName, firstName, email, password } = req.body;
     try {
         // PASSWORD ENCRYPTION
         const hashPassword = await bcrypt.hash(password, 12)
@@ -28,7 +28,6 @@ exports.register = async(req, res)=> {
         const newAdmin = await Admin.create({
             lastName: req.body.lastName,
             firstName: req.body.firstName,
-            userName: req.body.userName,
             email: req.body.email,
             password: hashPassword
         });

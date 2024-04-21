@@ -34,28 +34,6 @@ exports.getOne = async(req, res, next)=> {
 exports.create = async(req, res, next)=> {
     const { lastName, firstName, email, phone, password } = req.body;
     try {
-        const checkMail = await Librarian.findOne({email});
-        const checkUserName = await Librarian.findOne({userName});
-        // LIBRARIAN VALIDATION
-        if(checkMail) {
-            throw new Error('Email Exists');
-        } else if(checkUserName) {
-            throw new Error('Username Exists');
-        } else if(validator.isEmpty(lastName)) {
-            throw new Error('Last Name Is Required');
-        } else if(validator.isEmpty(firstName)) {
-            throw new Error('First Name Is Required');
-        } else if(validator.isEmpty(userName)) {
-            throw new Error('Username Is Required');
-        } else if(validator.isEmpty(email)) {
-            throw new Error('Email Is Required');
-        } else if(!validator.isEmail(email)) {
-            throw new Error('Email Is Invalid');
-        } else if(!validator.isMobilePhone(phone, ['en-NG'])) {
-            throw new Error('Invalid Mobile Number');
-        } else if(!validator.isStrongPassword(password, {minLength: 6, minSymbols: 0})) {
-            throw new Error('Password Is Weak, Must Be A minimum Of 6 Characters, 1 Uppercase, 1 Lowercase & 1 Number');
-        }
         // PASSWORD HASHING
         const encryptedPassword = await bcrypt.hash(password, 12);
         // CREATES A LABRARIAN

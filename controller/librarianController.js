@@ -9,7 +9,7 @@ const EXPIRES = 2 * 60 * 60 * 1000;
 exports.all = async(req, res, next)=> {
     try {
         const allLibrarian = await Librarian.find().sort({firstName: 'asc'});
-        res.status(200).json(allLibrarian);
+        return res.status(200).json(allLibrarian);
     } catch (err) {
         console.log(err);
         res.status(500).json({error: 'Internal Server Error'});
@@ -56,22 +56,20 @@ exports.create = async(req, res, next)=> {
 
 
 exports.gainAccess = async(req, res)=> {
-    const { userName, phone, password } = req.body;
+    const { email, password } = req.body;
     try {
-        const checkUserName = await Librarian.findOne({userName});
-        const checkPhone = await Librarian.findOne({phone});
-        const checkData = checkUserName || checkPhone;
-        // VALIDATE PASSWORD AND DATAS
-        if(checkData) {
-            const checkPassword = await bcrypt.compare(password, checkData.password);
+        const checkEmail = await Librarian.findOne({ email });
+        // VALIDATE PASSWORD AND EMAIL
+        if(checkEmail) {
+            const checkPassword = await bcrypt.compare(password, checkEmail.password);
             if(checkPassword) {
-                const token = librarianToken(checkData._id);
+                const token = librarianToken(checkEmail._id);
                 res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
-                return res.status(200).json({message: 'Successful Login', Librarian: checkData._id});
+                return res.status(200).json({message: 'Successful Login', Librarian: checkEmail._id});
             }
             throw new Error('Incorrect Password');
         }
-        throw new Error('Incorrect Username or Mobile Number');
+        throw new Error('Incorrect email');
     } catch (err) {
         console.log(err)
         res.status(400).json({errors: err.message});

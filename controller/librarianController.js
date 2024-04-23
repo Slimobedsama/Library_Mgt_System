@@ -78,11 +78,12 @@ exports.gainAccess = async(req, res)=> {
 
 exports.modify = async(req, res, next)=> {
     const id = req.params.id;
-    const {lastName, firstName, userName, phone} = req.body;
+    const { lastName, firstName, phone, password } = req.body;
     try {
-        const updateData = await Librarian.findByIdAndUpdate(id, req.body, {new: true});
+        const hidePass = await bcrypt.hash(password, 12);
+        const updateData = await Librarian.findByIdAndUpdate(id, { lastName, firstName, phone, password:hidePass }, { new: true });
         if(updateData) {
-            if(lastName || firstName || userName || phone) {
+            if(lastName || firstName || phone || password) {
                 return res.status(201).json({message: 'Update Successful', updateData});
             }
             throw new Error('Only Last Name, First Name, userName & Mobile can be updated');

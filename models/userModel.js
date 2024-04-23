@@ -10,9 +10,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     address: {
-        street: String,
-        city: String,
-        state: String
+        type: String,
+        required: true
     },
     sex: {
         type: String,
@@ -23,7 +22,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User

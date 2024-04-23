@@ -86,7 +86,6 @@ exports.modify = async(req, res, next)=> {
             if(lastName || firstName || phone || password) {
                 return res.status(201).json({message: 'Update Successful', updateData});
             }
-            throw new Error('Only Last Name, First Name, userName & Mobile can be updated');
         }
         return res.status(404).json({errors: `Librarian with id ${id} not found`});
     } catch (err) {

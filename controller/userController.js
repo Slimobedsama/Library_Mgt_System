@@ -10,3 +10,14 @@ exports.register = async(req, res, next)=> {
     }
     next();
 }
+
+exports.all = async(req, res, next)=> {
+    try {
+        const allUsers = await User.find().sort({firstName: 'asc'});
+        return res.status(200).json(allUsers);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+    next();
+}

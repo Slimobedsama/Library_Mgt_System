@@ -5,5 +5,6 @@ const userSignupVal = require('../utils/userValidation');
 const { librarianAuth } = require('../middleware/auth');
 
 Router.post('/signup', librarianAuth, userSignupVal, userController.register);
+Router.get('/', userController.all);
 
 module.exports = Router;

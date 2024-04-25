@@ -1,5 +1,16 @@
 const User = require('../models/userModel');
 
+exports.all = async(req, res, next)=> {
+    try {
+        const allUsers = await User.find().sort({firstName: 'asc'});
+        return res.status(200).json(allUsers);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+    next();
+}
+
 exports.register = async(req, res, next)=> {
     const { lastName, firstName, address, sex, email } = req.body;
     try {
@@ -11,13 +22,16 @@ exports.register = async(req, res, next)=> {
     next();
 }
 
-exports.all = async(req, res, next)=> {
+exports.getOne = async(req, res, next)=> {
+    const id = req.params.id;
     try {
-        const allUsers = await User.find().sort({firstName: 'asc'});
-        return res.status(200).json(allUsers);
+        const singleUser = await User.findById(id);
+        if(singleUser) {
+            return res.status(200).json( {message: `Found user with id ${id}`, singleUser });
+        }
+        throw new Error(`User with id ${id} not found`);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: err.message });
+        res.status(404).json({ errors: err.message });
     }
     next();
 }

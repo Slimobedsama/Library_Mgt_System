@@ -4,7 +4,8 @@ const userController = require('../controller/userController');
 const userSignupVal = require('../utils/userValidation');
 const { librarianAuth } = require('../middleware/auth');
 
-Router.post('/signup', librarianAuth, userSignupVal, userController.register);
 Router.get('/', librarianAuth, userController.all);
+Router.get('/:id', librarianAuth, userController.getOne);
+Router.post('/signup', librarianAuth, userSignupVal, userController.register);
 
 module.exports = Router;

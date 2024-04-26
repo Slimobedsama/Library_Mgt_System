@@ -14,3 +14,9 @@ The LMS implements the following functionalities:
 - ### User Management:
     - Admin can create new librarian.
     - Librarian can add new members using their names using names and contact informations.
+- ### Book Management:
+   - Librarian can add books.
+   - The system stores book information such as author, title, ISBN, availability.
+- ### Authorization:
+   - Only admins can create new librarians.
+   - Only librarians can add new books and members.

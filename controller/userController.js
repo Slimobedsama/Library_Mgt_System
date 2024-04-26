@@ -12,7 +12,7 @@ exports.all = async(req, res, next)=> {
 }
 
 exports.register = async(req, res, next)=> {
-    const { lastName, firstName, address, sex, email } = req.body;
+    const { lastName, firstName, sex, address, phoneNumber, email } = req.body;
     try {
         const newUser = await User.create(req.body);
         return res.status(201).json({ message: 'Success', data: newUser });

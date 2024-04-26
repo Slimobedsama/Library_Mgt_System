@@ -35,3 +35,20 @@ exports.getOne = async(req, res, next)=> {
     }
     next();
 }
+
+exports.modify = async(req, res, next)=> {
+    const id = req.params.id;
+    const { address, phoneNumber } = req.body;
+    try {
+        const updateData = await User.findByIdAndUpdate(id, { address, phoneNumber }, { new: true });
+        if(updateData) {
+            if(address || phoneNumber) {
+                return res.status(201).json({ message: 'Update Successful', data: updateData });
+            }
+        }
+        return res.status(404).json({ errors: `User with id ${id} not found` });
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).json({ errors: err.message });
+    }
+}

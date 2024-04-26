@@ -8,5 +8,9 @@ The LMS consist of two main user roles:
     - View all/single book(s).  
     - Facilitate lending and returning of books.    
     - Add/Remove members.   
-    - View all/single member(s).    
-        
+    - View all/single member(s).
+## System Functionalities    
+The LMS implements the following functionalities:    
+- ### User Management:
+    - Admin can create new librarian.
+    - Librarian can add new members using their names using names and contact informations.

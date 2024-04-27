@@ -52,3 +52,17 @@ exports.modify = async(req, res, next)=> {
         res.status(400).json({ errors: err.message });
     }
 }
+
+exports.remove = async(req, res, next)=> {
+    const id = req.params.id;
+    try {
+        const removeUser = await User.findByIdAndDelete(id);
+        if(!removeUser) {
+            throw new Error(`User with id ${id} not found `)
+        }
+        return res.status(200).json({ message: 'Deleted' });
+    } catch (err) {
+        console.log(err.message);
+        res.status(404).json({ errors: err.message });
+    }
+}

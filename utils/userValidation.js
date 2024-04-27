@@ -24,4 +24,19 @@ const userSignupVal =
     }
 ];
 
+const userEditVal = 
+[
+    body('address').notEmpty().withMessage('Enter an address'),
+    body('phoneNumber').isMobilePhone('en-NG').withMessage('Enter a valid Nigerian mobile number'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors.array().map( error => error.msg));
+            return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+        }
+        return next();
+    }
+]
+
 module.exports = userSignupVal;
+module.exports = userEditVal;

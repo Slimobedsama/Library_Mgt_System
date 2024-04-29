@@ -8,6 +8,22 @@ exports.getAll = async(req, res, next)=> {
         console.log(err.message);
         res.status(500).json({ error: err.message });
     }
+    next();
+}
+
+exports.getOne = async(req, res, next)=> {
+    const id = req.params.id;
+    try {
+        const singleBook = await  Book.findById(id);
+        if(singleBook) {
+            return res.status(200).json({ message: 'Success', data: singleBook });
+        }
+        throw new Error(`Book with id ${id} not found.`);
+    } catch (err) {
+        console.log(err.message);
+        res.status(404).json({ error: err.message });
+    }
+    next();
 }
 
 exports.create = async(req, res, next)=> {
@@ -19,4 +35,5 @@ exports.create = async(req, res, next)=> {
         console.log(err.message);
         res.status(400).json({ error: err.message });
     }
+    next();
 }

@@ -37,3 +37,18 @@ exports.create = async(req, res, next)=> {
     }
     next();
 }
+
+exports.remove = async(req, res, next)=> {
+    const id = req.params.id;
+    try {
+        const removeBook = await  Book.findByIdAndDelete(id);
+        if(removeBook) {
+            return res.status(200).json({ message: 'Successfully deleted' });
+        }
+        throw new Error(`Book with id ${id} not found.`);
+    } catch (err) {
+        console.log(err.message);
+        res.status(404).json({ error: err.message });
+    }
+    next();
+}

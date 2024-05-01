@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator');
 const Book = require('../models/bookModel');
-const { options } = require('../routes/bookRoute');
 
 const validateCreateBook = 
 [

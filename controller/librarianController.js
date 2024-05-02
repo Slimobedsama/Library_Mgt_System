@@ -1,7 +1,8 @@
 const Librarian = require('../models/librarianModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
-const {librarianToken} = require('../utils/genToken');
+const { librarianToken, passToken } = require('../utils/genToken');
+const emailSender = require('../utils/email');
 
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
@@ -109,4 +110,29 @@ exports.remove = async(req, res, next)=> {
         res.status(404).json({error: err.message})
     }
     next();
+}
+
+exports.lostPassword = async(req, res)=> {
+    const { email } = req.body;
+    try {
+        // CHECK FOR EXISTING EMAIL
+        const findEmail = await Librarian.findOne({ email });
+        if(!findEmail) {
+            throw new Error('This Email Is Not Found');
+        }
+        const id = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
+        // GENERATE TOKEN
+        const resetToken = passToken(findEmail._id);
+        res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
+        // // SEND EMAIL WITH TOKEN
+        await emailSender({
+            from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
+            to: 'slimobedsama@yahoo.com',
+            subject: 'Password Reset Link',
+            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/librarian/reset-password/${id}">${resetToken}</a></h2>`
+        })
+        return res.status(200).json({ message: 'Email Sent' });
+    } catch (err) {
+        res.status(404).json({ error: err.message});
+    }
 }

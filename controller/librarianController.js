@@ -136,3 +136,21 @@ exports.lostPassword = async(req, res)=> {
         res.status(404).json({ error: err.message});
     }
 }
+
+exports.resetePass = async(req, res, next)=> {
+    const { password } = req.body;
+    const id = req.params.id;
+    try {
+        // FIND ADMIN ID
+        const findId = await Librarian.findById(id);
+        // HASH PASSWORD
+        const encryptPassword = await bcrypt.hash(password, 12);
+        findId.password = encryptPassword;
+        findId.save();
+        res.status(201).json({ message: 'Password Reset Successful' });
+    } catch (err) {
+        console.log(err.message)
+        res.status(400).json({ error: err.message });
+    }
+    next();
+}

@@ -10,6 +10,7 @@ Router.get('/:id', adminAuth, librarianController.getOne);
 Router.post('/signup', adminAuth, librarianSignupVal, librarianController.create);
 Router.post('/login', librarianController.gainAccess);
 Router.post('/forgot-password', librarianController.lostPassword);
+Router.post('/reset-password', librarianController.resetePass);
 Router.patch('/:id', librarianUpdateVal, librarianAuth, librarianController.modify);
 Router.delete('/:id', adminAuth, librarianController.remove);
 

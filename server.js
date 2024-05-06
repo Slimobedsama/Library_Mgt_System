@@ -9,6 +9,7 @@ const adminRouter = require('./routes/adminRoute');
 const librarianRouter = require('./routes/librarianRoute');
 const userRouter = require('./routes/userRoute');
 const bookRouter = require('./routes/bookRoute');
+const orderRouter = require('./routes/orderRoute');
 
 const PORT = process.env.PORT  || 8000;
 // JSON PARSER MIDDLEWARE
@@ -24,6 +25,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/librarian', librarianRouter);
 app.use('/api/user', userRouter);
 app.use('/api/books', bookRouter);
+app.use('/api/orders', orderRouter);
 
 db().then((result)=> app.listen(PORT, ()=> console.log(`Server listening on port ${PORT}`)))
 .catch((err)=> console.log(err))

@@ -13,7 +13,7 @@ The LMS consist of two main user roles:
 The LMS implements the following functionalities:    
 - ### User Management:
     - Admin can create new librarian.
-    - Librarian can add new members using their names using names and contact informations.
+    - Librarian can add new members using their names and contact informations.
 - ### Book Management:
    - Librarian can add books.
    - The system stores book information such as author, title, ISBN, availability.

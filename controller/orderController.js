@@ -41,3 +41,30 @@ exports.createOrder = async(req, res, next)=> {
     }
     next();
 }
+
+exports.remove = async(req, res, next)=> {
+    const id = req.params.id;
+    const { book } = req.body;
+    try {
+        const removeOrder = await Order.findByIdAndDelete(id);
+        if(!removeOrder) {
+            throw new Error(`No order with id ${ id } was found`);
+        }
+        // FIND THE BOOK ID THROUGH THE REMOVED ORDER
+        const findBookId = await Book.findById(removeOrder.book);
+        // CHECK FOR QUANTITY AND AVAILABILITY
+        if(findBookId) {
+            // INCREMENT QUANTITY BY 1 AFTER DELETING ORDER
+            findBookId.quantity += 1;
+            if(findBookId.quantity > 0) {
+                // SET AVAILABLE TRUE
+                findBookId.isAvailable = true;
+            }
+        }
+        await findBookId.save();
+        return res.status(200).json({ message: 'Successfully deleted' });
+    } catch (err) {
+        console.log(err.message);
+        res.status(404).json({ error: err.message });
+    }
+}

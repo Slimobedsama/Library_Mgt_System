@@ -1,6 +1,6 @@
-const User = require('../models/userModel');
+import User from '../models/userModel.js';
 
-exports.all = async(req, res, next)=> {
+export const allUsers = async(req, res, next)=> {
     try {
         const allUsers = await User.find().sort({firstName: 'asc'});
         return res.status(200).json(allUsers);
@@ -11,7 +11,7 @@ exports.all = async(req, res, next)=> {
     next();
 }
 
-exports.register = async(req, res, next)=> {
+export const registerUsers = async(req, res, next)=> {
     const { lastName, firstName, sex, address, phoneNumber, email } = req.body;
     try {
         const newUser = await User.create(req.body);
@@ -22,7 +22,7 @@ exports.register = async(req, res, next)=> {
     next();
 }
 
-exports.getOne = async(req, res, next)=> {
+export const getOneUser = async(req, res, next)=> {
     const id = req.params.id;
     try {
         const singleUser = await User.findById(id);
@@ -36,7 +36,7 @@ exports.getOne = async(req, res, next)=> {
     next();
 }
 
-exports.modify = async(req, res, next)=> {
+export const modifyUser = async(req, res, next)=> {
     const id = req.params.id;
     const { address, phoneNumber } = req.body;
     try {
@@ -53,7 +53,7 @@ exports.modify = async(req, res, next)=> {
     }
 }
 
-exports.remove = async(req, res, next)=> {
+export const removeUser = async(req, res, next)=> {
     const id = req.params.id;
     try {
         const removeUser = await User.findByIdAndDelete(id);

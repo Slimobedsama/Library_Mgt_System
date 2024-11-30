@@ -1,5 +1,6 @@
-const { body, validationResult } = require('express-validator');
-const User = require('../models/userModel');
+import { body, validationResult } from 'express-validator';
+import User from '../models/userModel.js';
+
 const userSignupVal = 
 [
     body('lastName').notEmpty().withMessage('Last name is required'),
@@ -38,5 +39,4 @@ const userEditVal =
     }
 ]
 
-module.exports = userSignupVal;
-module.exports = userEditVal;
+export { userSignupVal, userEditVal };

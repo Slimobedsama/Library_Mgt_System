@@ -1,13 +1,13 @@
-const Admin = require('../models/adminModel');
-const bcrypt = require('bcrypt');
-const { adminToken, passToken } = require('../utils/genToken');
-const emailSender = require('../utils/email');
+import Admin from '../models/adminModel.js';
+import bcrypt from 'bcrypt';
+import { adminToken, passToken } from '../utils/genToken.js';
+import emailSender from '../utils/email.js';
 
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
 
 // ALL ADMIN
-exports.allAdmin = async(req, res, next)=> {
+export const allAdmin = async(req, res, next)=> {
     try {
         const getAllAdmin = await Admin.find().sort({lastName: 'asc'});
         return res.status(200).json(getAllAdmin);
@@ -19,7 +19,7 @@ exports.allAdmin = async(req, res, next)=> {
 }
 
 // SIGNUP
-exports.register = async(req, res)=> {
+export const registerAdmin = async(req, res)=> {
     const { lastName, firstName, email, password } = req.body;
     try {
         // PASSWORD ENCRYPTION
@@ -47,7 +47,7 @@ exports.register = async(req, res)=> {
 }
 
 // LOGIN
-exports.access = async(req, res)=> {
+export const accessAdmin = async(req, res)=> {
     const { email, password } = req.body;
     try {
         // LOGIN VALIDATION
@@ -68,7 +68,7 @@ exports.access = async(req, res)=> {
 }
 
 // ADMIN FORGOTTEN PASSWORD
-exports.lostPass = async(req, res)=> {
+export const adminLostPass = async(req, res)=> {
     const { email } = req.body;
     try {
         // CHECK FOR EXISTING EMAIL
@@ -94,7 +94,7 @@ exports.lostPass = async(req, res)=> {
 }
 
 // ADMIN RESET PASSWORD
-exports.retrievePass = async(req, res, next)=> {
+export const adminRetrievePass = async(req, res, next)=> {
     const { password } = req.body;
     const id = req.params.id;
     try {

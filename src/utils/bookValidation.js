@@ -1,5 +1,5 @@
-const { body, validationResult } = require('express-validator');
-const Book = require('../models/bookModel');
+import { body, validationResult } from 'express-validator';
+import Book from '../models/bookModel.js';
 
 const validateCreateBook = 
 [
@@ -21,5 +21,4 @@ const validateCreateBook =
         return next();
     }
 ];
-
-module.exports = validateCreateBook;
+export default validateCreateBook;

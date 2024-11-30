@@ -1,5 +1,5 @@
-const { body, validationResult } = require('express-validator');
-const Admin = require('../models/adminModel');
+import { body, validationResult } from 'express-validator';
+import Admin from '../models/adminModel.js';
 
 // ADMIN VALIDATION
 const adminSingupVal = 
@@ -32,4 +32,4 @@ const resetPassValidate =
     }
 ]
 
-module.exports = { adminSingupVal, resetPassValidate };
+export { adminSingupVal, resetPassValidate };

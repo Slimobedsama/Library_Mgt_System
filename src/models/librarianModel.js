@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const librarianSchema = new mongoose.Schema({
     lastName: {
@@ -25,4 +25,4 @@ const librarianSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 const Librarian = mongoose.model('Librarian', librarianSchema);
-module.exports = Librarian;
+export default Librarian;

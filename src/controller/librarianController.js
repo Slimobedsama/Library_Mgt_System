@@ -1,13 +1,12 @@
-const Librarian = require('../models/librarianModel');
-const bcrypt = require('bcrypt');
-const validator = require('validator');
-const { librarianToken, passToken } = require('../utils/genToken');
-const emailSender = require('../utils/email');
+import Librarian from '../models/librarianModel.js';
+import bcrypt from 'bcrypt';
+import { librarianToken, passToken } from '../utils/genToken.js';
+import emailSender from '../utils/email.js';
 
 // COOKIE-PARSER EXPIRATION
 const EXPIRES = 2 * 60 * 60 * 1000;
 
-exports.all = async(req, res, next)=> {
+export const getEveryLibrarian = async(req, res, next)=> {
     try {
         const allLibrarian = await Librarian.find().sort({firstName: 'asc'});
         return res.status(200).json(allLibrarian);
@@ -18,7 +17,7 @@ exports.all = async(req, res, next)=> {
     next();
 }
 
-exports.getOne = async(req, res, next)=> {
+export const getOneLibrarian = async(req, res, next)=> {
     const id = req.params.id;
     try {
         const single = await Librarian.findById(id);
@@ -32,7 +31,7 @@ exports.getOne = async(req, res, next)=> {
     next();
 }
 
-exports.create = async(req, res, next)=> {
+export const reqisterLibrarian = async(req, res, next)=> {
     const { lastName, firstName, email, phone, password } = req.body;
     try {
         // PASSWORD HASHING
@@ -56,7 +55,7 @@ exports.create = async(req, res, next)=> {
 }
 
 
-exports.gainAccess = async(req, res)=> {
+export const accessLibrarian = async(req, res)=> {
     const { email, password } = req.body;
     try {
         const checkEmail = await Librarian.findOne({ email });
@@ -77,7 +76,7 @@ exports.gainAccess = async(req, res)=> {
     }
 }
 
-exports.modify = async(req, res, next)=> {
+export const modifyLabrarian = async(req, res, next)=> {
     const id = req.params.id;
     const { lastName, firstName, phone, password } = req.body;
     try {
@@ -96,7 +95,7 @@ exports.modify = async(req, res, next)=> {
     next();
 }
 
-exports.remove = async(req, res, next)=> {
+export const removeLibrarian = async(req, res, next)=> {
     const id = req.params.id;
     try {
         const delLib = await Librarian.findByIdAndDelete(id);
@@ -112,7 +111,7 @@ exports.remove = async(req, res, next)=> {
     next();
 }
 
-exports.lostPassword = async(req, res)=> {
+export const librarianLostPassword = async(req, res)=> {
     const { email } = req.body;
     try {
         // CHECK FOR EXISTING EMAIL
@@ -137,7 +136,7 @@ exports.lostPassword = async(req, res)=> {
     }
 }
 
-exports.resetePass = async(req, res, next)=> {
+export const librarianResetPass = async(req, res, next)=> {
     const { password } = req.body;
     const id = req.params.id;
     try {

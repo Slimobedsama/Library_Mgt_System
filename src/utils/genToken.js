@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 // GENERATES JWT TOKEN
 const librarianToken = (id)=> {
@@ -13,4 +13,4 @@ const passToken = (id)=> {
     return jwt.sign({ id }, process.env.JWT_PASS, { expiresIn: process.env.PASS_EXPIRES });
 }
 
-module.exports = { librarianToken, adminToken, passToken };
+export { librarianToken, adminToken, passToken };

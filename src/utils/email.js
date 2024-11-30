@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 const emailSender = async(info)=> {
     try {
@@ -18,4 +18,4 @@ const emailSender = async(info)=> {
     }
 }
 
-module.exports = emailSender;
+export default emailSender;

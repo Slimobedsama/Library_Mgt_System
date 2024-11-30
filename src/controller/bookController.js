@@ -1,6 +1,6 @@
-const Book = require('../models/bookModel');
+import Book from '../models/bookModel.js';
 
-exports.getAll = async(req, res, next)=> {
+export const getAllBooks = async(req, res, next)=> {
     try {
         const allBooks = await Book.find().sort({ title: 'asc' });
         return res.status(200).json({ message: 'Success', data: allBooks });
@@ -11,7 +11,7 @@ exports.getAll = async(req, res, next)=> {
     next();
 }
 
-exports.getOne = async(req, res, next)=> {
+export const getOneBook = async(req, res, next)=> {
     const id = req.params.id;
     try {
         const singleBook = await  Book.findById(id);
@@ -26,7 +26,7 @@ exports.getOne = async(req, res, next)=> {
     next();
 }
 
-exports.create = async(req, res, next)=> {
+export const createBook= async(req, res, next)=> {
     const { author, title, publishedYear, quantity, ISBN, isAvailable } = req.body;
     try {
         const newBook = await Book.create(req.body);
@@ -38,7 +38,7 @@ exports.create = async(req, res, next)=> {
     next();
 }
 
-exports.remove = async(req, res, next)=> {
+export const removeBook = async(req, res, next)=> {
     const id = req.params.id;
     try {
         const removeBook = await  Book.findByIdAndDelete(id);

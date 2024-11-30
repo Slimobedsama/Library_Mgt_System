@@ -1,8 +1,8 @@
-const { body, validationResult } = require('express-validator');
-const Librarian = require('../models/librarianModel');
+import { body, validationResult } from 'express-validator';
+import Librarian from '../models/librarianModel.js';
 
 // ADMIN VALIDATION
-const librarianSingupVal = 
+export const librarianSingupVal = 
 [
     body('lastName').notEmpty().withMessage('Enter Last Name'),
     body('firstName').notEmpty().withMessage('Enter First Name'),
@@ -22,7 +22,7 @@ const librarianSingupVal =
     }
 ];
 
-const librarianUpdateVal = 
+export const librarianUpdateVal = 
 [
     body('lastName').notEmpty().withMessage('Enter Last Name'),
     body('firstName').notEmpty().withMessage('Enter First Name'),
@@ -35,8 +35,6 @@ const librarianUpdateVal =
             return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();
+        
     }
 ];
-
-module.exports = librarianSingupVal;
-module.exports = librarianUpdateVal;

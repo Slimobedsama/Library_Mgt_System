@@ -1,7 +1,7 @@
-const Book = require('../models/bookModel');
-const Order = require('../models/orderModel');
+import Book from '../models/bookModel.js';
+import Order from '../models/orderModel.js';
 
-exports.allOrder = async(req, res, next)=> {
+export const allOrder = async(req, res, next)=> {
     try {
         const getAllOrders = await Order.find().populate('book')
         .populate('user');
@@ -13,7 +13,7 @@ exports.allOrder = async(req, res, next)=> {
     next();
 }
 
-exports.createOrder = async(req, res, next)=> {
+export const createOrder = async(req, res, next)=> {
     let { book, user } = req.body;
     try {
         // CHECK FOR BOOK ID FROM THE BOOK DOCUMENT
@@ -42,7 +42,7 @@ exports.createOrder = async(req, res, next)=> {
     next();
 }
 
-exports.remove = async(req, res, next)=> {
+export const removeOrder = async(req, res, next)=> {
     const id = req.params.id;
     const { book } = req.body;
     try {

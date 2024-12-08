@@ -1,10 +1,8 @@
 import Admin from '../models/adminModel.js';
 import bcrypt from 'bcrypt';
 import { adminToken, adminResetToken } from '../utils/genToken.js';
+import { EXPIRES, RESET } from '../utils/maxAge.js';
 import emailSender from '../utils/email.js';
-
-// COOKIE-PARSER EXPIRATION
-const EXPIRES = 2 * 60 * 60 * 1000;
 
 // ALL ADMIN
 export const allAdmin = async(req, res, next)=> {
@@ -32,7 +30,7 @@ export const registerAdmin = async(req, res)=> {
             password: hashPassword
         });
         const token = adminToken(newAdmin._id);
-        res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+        res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
             to: 'slimobedsama@yahoo.com',
@@ -56,7 +54,7 @@ export const accessAdmin = async(req, res)=> {
             const checkPassword = await bcrypt.compare(password, checkMail.password);
             if(checkPassword) {
                 const token = adminToken(checkMail._id);
-                res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+                res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
                 return res.status(200).json({message: 'Login Successful', Admin: checkMail._id});
             }
             throw new Error('Incorrect Password');
@@ -79,7 +77,7 @@ export const adminLostPass = async(req, res)=> {
         const userId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
         const resetToken = adminResetToken(findEmail._id);
-        res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
+        res.cookie('admin', resetToken, { httpOnly: true, maxAge: RESET});
         // // SEND EMAIL WITH TOKEN
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,

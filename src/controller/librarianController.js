@@ -1,10 +1,8 @@
 import Librarian from '../models/librarianModel.js';
 import bcrypt from 'bcrypt';
 import { librarianToken, libResetToken } from '../utils/genToken.js';
+import { EXPIRES, RESET } from '../utils/maxAge.js';
 import emailSender from '../utils/email.js';
-
-// COOKIE-PARSER EXPIRATION
-const EXPIRES = 2 * 60 * 60 * 1000;
 
 export const getEveryLibrarian = async(req, res, next)=> {
     try {
@@ -46,7 +44,7 @@ export const reqisterLibrarian = async(req, res, next)=> {
         });
         // CREATES JWT TOKEN
         const token = librarianToken(createLibrarian._id);
-        res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+        res.cookie('lib', token, {httpOnly: true, maxAge: EXPIRES});
         return res.status(201).json({message: 'Successful Creation', Librarian: createLibrarian._id});
     } catch (err) {Librarian
         res.status(400).json({errors: err.message});
@@ -64,7 +62,7 @@ export const accessLibrarian = async(req, res)=> {
             const checkPassword = await bcrypt.compare(password, checkEmail.password);
             if(checkPassword) {
                 const token = librarianToken(checkEmail._id);
-                res.cookie('jwt', token, {httpOnly: true, maxAge: EXPIRES});
+                res.cookie('lib', token, {httpOnly: true, maxAge: EXPIRES});
                 return res.status(200).json({message: 'Successful Login', Librarian: checkEmail._id});
             }
             throw new Error('Incorrect Password');
@@ -122,7 +120,7 @@ export const librarianLostPassword = async(req, res)=> {
         const id = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
         const resetToken = libResetToken(findEmail._id);
-        res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
+        res.cookie('lib', resetToken, { httpOnly: true, maxAge: RESET});
         // // SEND EMAIL WITH TOKEN
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,

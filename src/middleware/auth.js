@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 // ADMIN AUTH
 const adminAuth = (req, res, next)=> {
-    const token = req.cookies.jwt;
+    const token = req.cookies.admin;
     if(token) {
         jwt.verify(token, process.env.JWT_SECRETE, (err, decoded)=> {
             if(err) {
@@ -20,7 +20,7 @@ const adminAuth = (req, res, next)=> {
 // LUBRARIAN AUTH
 const librarianAuth = (req, res, next)=> {
     // SET TOKEN REQUEST IN THE COOKIE
-    const token = req.cookies.jwt;
+    const token = req.cookies.lib;
     if(token) {
         jwt.verify(token, process.env.JWT_KEY, (err, decoded)=> {
             if(err) {
@@ -38,7 +38,7 @@ const librarianAuth = (req, res, next)=> {
 // RESET PASSWORD AUTH
 const resetAuth = (req, res, next)=> {
     // SET TOKEN REQUEST IN THE COOKIE
-    const token = req.cookies.jwt;
+    const token = req.cookies.admin;
     if(token) {
         jwt.verify(token, process.env.JWT_PASS, (err, decoded)=> {
             if(err) {

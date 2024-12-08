@@ -1,6 +1,6 @@
 import Librarian from '../models/librarianModel.js';
 import bcrypt from 'bcrypt';
-import { librarianToken, passToken } from '../utils/genToken.js';
+import { librarianToken, libResetToken } from '../utils/genToken.js';
 import emailSender from '../utils/email.js';
 
 // COOKIE-PARSER EXPIRATION
@@ -121,7 +121,7 @@ export const librarianLostPassword = async(req, res)=> {
         }
         const id = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
-        const resetToken = passToken(findEmail._id);
+        const resetToken = libResetToken(findEmail._id);
         res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
         // // SEND EMAIL WITH TOKEN
         await emailSender({

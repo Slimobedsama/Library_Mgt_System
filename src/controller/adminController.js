@@ -1,6 +1,6 @@
 import Admin from '../models/adminModel.js';
 import bcrypt from 'bcrypt';
-import { adminToken, passToken } from '../utils/genToken.js';
+import { adminToken, adminResetToken } from '../utils/genToken.js';
 import emailSender from '../utils/email.js';
 
 // COOKIE-PARSER EXPIRATION
@@ -78,7 +78,7 @@ export const adminLostPass = async(req, res)=> {
         }
         const userId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
-        const resetToken = passToken(findEmail._id);
+        const resetToken = adminResetToken(findEmail._id);
         res.cookie('jwt', resetToken, { httpOnly: true, maxAge: 10 * 60 * 1000});
         // // SEND EMAIL WITH TOKEN
         await emailSender({

@@ -2,15 +2,19 @@ import jwt from 'jsonwebtoken';
 
 // GENERATES JWT TOKEN
 const librarianToken = (id)=> {
-    return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: process.env.EXPIRES_IN });
+    return jwt.sign({ id }, process.env.JWT_LIB, { expiresIn: process.env.EXPIRES_IN });
 }
 
 const adminToken = (id)=> {
-    return jwt.sign({ id }, process.env.JWT_SECRETE, { expiresIn: process.env.EXPIRES_IN });
+    return jwt.sign({ id }, process.env.JWT_ADM, { expiresIn: process.env.EXPIRES_IN });
 }
 
-const passToken = (id)=> {
-    return jwt.sign({ id }, process.env.JWT_PASS, { expiresIn: process.env.PASS_EXPIRES });
+const adminResetToken = (id)=> {
+    return jwt.sign({ id }, process.env.ADM_RESET, { expiresIn: process.env.PASS_EXPIRES });
 }
 
-export { librarianToken, adminToken, passToken };
+const libResetToken = (id)=> {
+    return jwt.sign({ id }, process.env.LIB_RESET, { expiresIn: process.env.PASS_EXPIRES });
+}
+
+export { librarianToken, adminToken, adminResetToken, libResetToken };

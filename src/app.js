@@ -14,6 +14,8 @@ import orderRouter from './routes/orderRoute.js';
 app.use(express.json());
 // ENCODED URL PARSER MIDDLEWARE
 app.use(express.urlencoded({extended: true}));
+// TEMPLATE ENGINE
+app.set('view engine', 'ejs');
 // COOKIE MIDDLEWARE
 app.use(cookieParser());
 // MORGAN MIDDLEWARE

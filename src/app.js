@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended: true}));
 // STATIC MIDDLEWARE
 app.use(express.static(join(__dirname, 'public')));
 // TEMPLATE ENGINE
-app.set('views', join(__dirname, './view'));
+app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // COOKIE MIDDLEWARE
 app.use(cookieParser());

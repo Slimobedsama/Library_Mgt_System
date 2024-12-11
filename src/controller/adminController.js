@@ -109,3 +109,8 @@ export const adminRetrievePass = async(req, res, next)=> {
     }
     next();
 }
+
+// ADMIN VIEW LOGIC
+export const adminViewLogin = async(req, res)=> {
+    res.render('./admin/login', { title: 'Admin Login' });
+}

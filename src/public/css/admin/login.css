@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+}
+body, h1, h2, h3, h4, h4, h5, h6, p, ul {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-image: url('../../images/library-books.jpg');
+    background-size: cover;
+}
+/* ADMIN LOGIN FORM */
+#form-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+#form {
+    background-color: #ccc;
+    padding: 50px;
+    border-radius: 10px;
+    min-width: 350px;
+}
+.msg h2 {
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0 0 25px 0;
+    color: #444;
+}
+.input-syle {
+    position: absolute;
+}
+input {
+    margin: 20px auto;
+}
+.input-style input {
+    width: 100%;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    padding: 8px 20px;
+    font-size: medium;
+    font-weight: 500;
+}
+.fa-eye {
+    position: relative;
+    top: -50px;
+    left: 230px;
+}
+.btn {
+    display: flex;
+    justify-content: space-between;
+}
+.btn input, .btn a {
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 600;
+}
+.btn input {
+    padding: 8px 15px;
+    background-color: #ff0000;
+    color: #fff;
+    border: 0;
+}
+.btn input[type="button"] {
+    background-color: #fff;
+    color: #ff0000;
+    text-decoration: none;
+    padding: 8px;
+}

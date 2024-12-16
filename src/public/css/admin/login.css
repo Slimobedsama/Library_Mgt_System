@@ -43,7 +43,8 @@ input {
     font-size: medium;
     font-weight: 500;
 }
-.fa-eye {
+.fa-eye, .fa-eye-slash {
+    cursor: pointer;
     position: relative;
     top: -50px;
     left: 230px;

@@ -1,11 +1,12 @@
 import express from 'express';
 const Router = express.Router();
-import { allAdmin, registerAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminViewLogin  } from '../controller/adminController.js';
+import { allAdmin, registerAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminViewLogin, dashBoardAdmin  } from '../controller/adminController.js';
 import { resetAuth } from '../middleware/auth.js';
 import { adminSingupVal, resetPassValidate } from '../utils/adminValidation.js';
 
 // ADMIN VIEW ROUTES
 Router.get('/login', adminViewLogin);
+Router.get('/dashboard', dashBoardAdmin);
 
 // ADMIN ROUTES
 Router.get('/', allAdmin);

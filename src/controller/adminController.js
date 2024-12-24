@@ -114,3 +114,7 @@ export const adminRetrievePass = async(req, res, next)=> {
 export const adminViewLogin = async(req, res)=> {
     res.render('./admin/login', { title: 'Admin Login' });
 }
+
+export const dashBoardAdmin = (req, res)=> {
+    res.render('./admin/adminBoard', { title: 'Admin Dash Board' });
+}

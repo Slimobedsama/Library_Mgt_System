@@ -113,5 +113,5 @@ export const adminViewLogin = async(req, res)=> {
 }
 
 export const dashBoardAdmin = (req, res)=> {
-    res.render('./admin/adminBoard', { title: 'Admin Dash Board' });
+    res.render('./admin/dashboard', { title: 'Admin Dash Board' });
 }

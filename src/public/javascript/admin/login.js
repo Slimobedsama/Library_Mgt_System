@@ -36,7 +36,7 @@ async function loginForm(e) {
         const data = await response.json();
         
         if(data.Admin) {
-            // location.assign('/api/admins/dash-board');
+            location.assign('/api/admins/dash-board');
         }
 
         if(data && data.errors) {

@@ -11,6 +11,7 @@ import librarianRouter from './routes/librarianRoute.js';
 import userRouter from './routes/userRoute.js';
 import bookRouter from './routes/bookRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import errorHandler from './middleware/errorHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,5 +35,6 @@ app.use('/api/librarians', librarianRouter);
 app.use('/api/users', userRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/orders', orderRouter);
+app.use(errorHandler);
 
 export default app;

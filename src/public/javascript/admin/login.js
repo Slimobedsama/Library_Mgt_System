@@ -38,7 +38,7 @@ async function loginForm(e) {
         if(data.Admin) {
             location.assign('/api/admins/dashboard');
         }
-        
+
         if(data.errors.includes('This Email')) {
             emailError.textContent = data.errors;
         } else if(data.errors.includes('Incorrect Password')) {

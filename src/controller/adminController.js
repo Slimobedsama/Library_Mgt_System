@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { adminToken, adminResetToken } from '../utils/genToken.js';
 import { EXPIRES, RESET } from '../utils/maxAge.js';
 import emailSender from '../utils/email.js';
+import ApiErrors from '../errors/ApiErrors.js';
 
 // ALL ADMIN
 export const allAdmin = async(req, res, next)=> {
@@ -10,14 +11,12 @@ export const allAdmin = async(req, res, next)=> {
         const getAllAdmin = await Admin.find().sort({lastName: 'asc'});
         return res.status(200).json(getAllAdmin);
     } catch (err) {
-        console.log(err.message);
-        res.status(500).json({error: err.message});
+        next(err);
     }
-    next();
 }
 
 // SIGNUP
-export const registerAdmin = async(req, res)=> {
+export const registerAdmin = async(req, res, next)=> {
     const { lastName, firstName, email, password } = req.body;
     try {
         // PASSWORD ENCRYPTION
@@ -39,17 +38,17 @@ export const registerAdmin = async(req, res)=> {
         })
         res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id});
     } catch (err) {
-        console.log(err.message)
-        res.status(400).json({errors: err.message});
+        next(err)
     }
 }
 
 // LOGIN
-export const accessAdmin = async(req, res)=> {
+export const accessAdmin = async(req, res, next)=> {
     const { email, password } = req.body;
     try {
         // LOGIN VALIDATION
         const checkMail = await Admin.findOne({email});
+        
         if(checkMail) {
             const checkPassword = await bcrypt.compare(password, checkMail.password);
             if(checkPassword) {
@@ -57,22 +56,22 @@ export const accessAdmin = async(req, res)=> {
                 res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
                 return res.status(200).json({message: 'Login Successful', Admin: checkMail._id});
             }
-            throw new Error('Incorrect Password');
+           throw ApiErrors.badRequest('Incorrect password');
         }
-        throw new Error('This Email Is Not Found');
+       throw ApiErrors.notFound('This email does not exist');
     } catch (err) {
-        res.status(400).json({errors: err.message});
+        next(err);
     }
 }
 
 // ADMIN FORGOTTEN PASSWORD
-export const adminLostPass = async(req, res)=> {
+export const adminLostPass = async(req, res, next)=> {
     const { email } = req.body;
     try {
         // CHECK FOR EXISTING EMAIL
         const findEmail = await Admin.findOne({ email });
         if(!findEmail) {
-            throw new Error('This Email Is Not Found');
+            throw ApiErrors.notFound('This email is not found');
         }
         const userId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
@@ -87,7 +86,7 @@ export const adminLostPass = async(req, res)=> {
         })
         return res.status(200).json({ message: 'Email Sent' });
     } catch (err) {
-        res.status(404).json({ error: err.message});
+        next(err);
     }
 }
 
@@ -104,10 +103,8 @@ export const adminRetrievePass = async(req, res, next)=> {
         findId.save();
         res.status(201).json({ message: 'Password Reset Successful' });
     } catch (err) {
-        console.log(err.message)
-        res.status(400).json({ error: err.message });
+        next(err);
     }
-    next();
 }
 
 // ADMIN VIEW LOGIC

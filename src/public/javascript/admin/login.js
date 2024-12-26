@@ -36,13 +36,25 @@ async function loginForm(e) {
         const data = await response.json();
         
         if(data.Admin) {
-            location.assign('/api/admins/dashboard');
+            // location.assign('/api/admins/dash-board');
         }
 
-        if(data.errors.includes('This Email')) {
-            emailError.textContent = data.errors;
-        } else if(data.errors.includes('Incorrect Password')) {
-            passwordError.textContent = data.errors;
+        if(data && data.errors) {
+            for(error of data.errors) {
+             if(error.includes('Email')) {
+                 emailError.textContent = error;
+             } else if(error.includes('Password')) {
+                 passwordError.textContent = error;
+             }
+            }
+        }
+
+        if (data && data.message) {
+            if(data.message.includes('email does not')) {
+                emailError.textContent = data.message;
+            } else if(data.message.includes('Incorrect password')) {
+                passwordError.textContent = data.message;
+            }
         }
     } catch (err) {
         console.log(err);

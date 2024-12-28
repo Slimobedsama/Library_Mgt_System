@@ -86,7 +86,7 @@ export const adminLostPass = async(req, res, next)=> {
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
             to: `${ findEmail.email }`,
             subject: 'Password Reset Link',
-            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admin/reset-password/${userId}">${resetToken}</a></h2>`
+            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admins/reset-password/${userId}">${resetToken}</a></h2>`
         })
         return res.status(200).json({ message: 'Email Sent', userId });
     } catch (err) {
@@ -122,4 +122,8 @@ export const dashBoardAdmin = (req, res)=> {
 
 export const lostPassword = (req, res)=> {
     res.render('./admin/forgot', { title: 'Forgotten Password' });
+}
+
+export const resetPassword = (req, res)=> {
+    res.render('./admin/reset', { title: 'Reset Password' });
 }

@@ -49,7 +49,7 @@ input {
 .fa-eye, .fa-eye-slash {
     cursor: pointer;
     position: relative;
-    top: -47px;
+    top: -43px;
     left: 230px;
 }
 .btn {
@@ -80,9 +80,4 @@ input {
 }
 .password-error {
     margin-top: -15px;
-}
-/* FORGOTTEN PASSWORD ONLY STYLE */
-.btn-forgot {
-    display: flex;
-    justify-content: space-around;
 }

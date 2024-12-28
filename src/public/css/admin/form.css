@@ -1,3 +1,4 @@
+/* THIS FILE CONTAINS STLES FOR ADMIN LOGIN, FORGOTTEN PASSWORD AND RESET PASSWORD */
 * {
     box-sizing: border-box;
 }
@@ -79,4 +80,9 @@ input {
 }
 .password-error {
     margin-top: -15px;
+}
+/* FORGOTTEN PASSWORD ONLY STYLE */
+.btn-forgot {
+    display: flex;
+    justify-content: space-around;
 }

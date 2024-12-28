@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<%- include('../partials/head') %>
+<body>
+    <div id="form-content">
+        <form action="/api/admins/forgotten-password" method="post" id="form" novalidate>
+            <div class="msg">
+                <h2>Forgot Password?</h2>
+            </div>
+            <div class="input-style">
+                <input type="email" name="email" id="email" placeholder="Email" required>
+                <div class="error email-error msg-sent"></div>
+            </div>
+            <div class="btn btn-forgot">
+                <div>
+                    <input type="submit" value="Reset">
+                </div>
+                <div>
+                    <a href="/api/admins/login"><input type="button" value="Return to login"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="/javascript/admin/forgot.js"></script>
+</body>
+</html>

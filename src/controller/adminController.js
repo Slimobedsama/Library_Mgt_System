@@ -32,11 +32,11 @@ export const registerAdmin = async(req, res, next)=> {
         res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
-            to: 'slimobedsama@yahoo.com',
+            to: `${ newAdmin.email }`,
             subject: 'Email Verification Link',
             html: `<h2> Welcome ${ lastName } ${ firstName }. Please verify your email with the link <a href="http://localhost:9000/api/admin">${token}</a></h2>`
         })
-        res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id});
+        res.status(201).json({message: 'Admin Created...', Admin: newAdmin._id, mail: 'Email sent'});
     } catch (err) {
         next(err)
     }
@@ -69,6 +69,10 @@ export const adminLostPass = async(req, res, next)=> {
     const { email } = req.body;
     try {
         // CHECK FOR EXISTING EMAIL
+        if(email === '') {
+            throw ApiErrors.badRequest('Email is required');
+        }
+
         const findEmail = await Admin.findOne({ email });
         if(!findEmail) {
             throw ApiErrors.notFound('This email is not found');
@@ -80,11 +84,11 @@ export const adminLostPass = async(req, res, next)=> {
         // // SEND EMAIL WITH TOKEN
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
-            to: 'slimobedsama@yahoo.com',
+            to: `${ findEmail.email }`,
             subject: 'Password Reset Link',
             html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admin/reset-password/${userId}">${resetToken}</a></h2>`
         })
-        return res.status(200).json({ message: 'Email Sent' });
+        return res.status(200).json({ message: 'Email Sent', userId });
     } catch (err) {
         next(err);
     }
@@ -114,4 +118,8 @@ export const adminViewLogin = async(req, res)=> {
 
 export const dashBoardAdmin = (req, res)=> {
     res.render('./admin/dashboard', { title: 'Admin Dash Board' });
+}
+
+export const lostPassword = (req, res)=> {
+    res.render('./admin/forgot', { title: 'Forgotten Password' });
 }

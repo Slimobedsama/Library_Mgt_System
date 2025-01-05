@@ -1,15 +1,13 @@
 const form = document.querySelector('#form');
 let email = document.querySelector('#email');
-let emailError = document.querySelector('.email-error');
-let successMsg = document.querySelector('.msg-sent');
+let emailMsg = document.querySelector('.email-msg');
 
 form.addEventListener('submit', async(e)=> {
     e.preventDefault();
     // SET FORM DATA
     email = form.email.value;
     // CLEARS ERROR MESSAGE
-    emailError.textContent = '';
-    successMsg.textContent = '';
+    emailMsg.textContent = '';
 
     try {
         const res = await fetch('/api/admins/forgotten-password', {
@@ -20,11 +18,11 @@ form.addEventListener('submit', async(e)=> {
         const data = await res.json();
         
         if(data.userId) {
-           successMsg.textContent = data.message;
+           emailMsg.textContent = data.message;
         }
     
         if(data && data.message.includes('Email is required') || data && data.message.includes('email is not found')) {
-            emailError.textContent = data.message;
+            emailMsg.textContent = data.message;
         }
         
     } catch (error) {

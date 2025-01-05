@@ -22,14 +22,14 @@ body {
     background-color: #ccc;
     padding: 50px;
     border-radius: 10px;
-    min-width: 350px;
+    max-width: 350px;
 }
 .msg h2 {
     text-align: center;
     text-transform: uppercase;
     margin: 0 0 25px 0;
 }
-.msg h2, .error {
+.msg h2, .msgs {
     color: #444;
 }
 .input-syle {
@@ -56,13 +56,13 @@ input {
     display: flex;
     justify-content: space-between;
 }
-.btn input, .btn a {
+.btn input, .btn a, .btn-reset input {
     cursor: pointer;
     border-radius: 5px;
     font-size: 1em;
     font-weight: 600;
 }
-.btn input {
+.btn input, .btn-reset input {
     padding: 8px 15px;
     background-color: #ff0000;
     color: #fff;
@@ -74,10 +74,14 @@ input {
     text-decoration: none;
     padding: 8px;
 }
-.error {
+.msgs {
     font-size: 1.04em;
     font-weight: 600;
+    text-align: justify;
 }
-.password-error {
+.password-msg {
     margin-top: -15px;
+}
+.btn-reset input {
+    width: 100%;
 }

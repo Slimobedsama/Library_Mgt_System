@@ -1,6 +1,6 @@
 import express from 'express';
 const Router = express.Router();
-import { allAdmin, registerAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminViewLogin, dashBoardAdmin, lostPassword, resetPassword } from '../controller/adminController.js';
+import { allAdmin, registerAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminLogout, adminViewLogin, dashBoardAdmin, lostPassword, resetPassword } from '../controller/adminController.js';
 import { adminAuth } from '../middleware/auth.js';
 import { adminSingupVal, resetPassValidate, loginValAdmin } from '../utils/adminValidation.js';
 
@@ -12,6 +12,7 @@ Router.get('/reset-password/:id', resetPassword);
 
 // ADMIN ROUTES
 Router.get('/', allAdmin);
+Router.get('/logout', adminLogout);
 Router.post('/is-admin-signup', adminSingupVal, registerAdmin);
 Router.post('/login', loginValAdmin, accessAdmin);
 Router.post('/forgotten-password', adminLostPass);

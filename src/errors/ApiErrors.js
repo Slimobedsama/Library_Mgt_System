@@ -9,6 +9,9 @@ export default class ApiErrors {
     static notFound(message) {
         return new ApiErrors(404, message);
     }
+    static unathourizedAcess(message) {
+        return new ApiErrors(401, message);
+    }
     static internalServer(message) {
         return new ApiErrors(500, message);
     }

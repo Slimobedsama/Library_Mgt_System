@@ -105,13 +105,12 @@ export const adminRetrievePass = async(req, res, next)=> {
         const encryptPassword = await bcrypt.hash(password, 12);
         // FIND BY ID AND UPDATES NEW PASSWORD
         if(!reset) {
-            throw ApiErrors.badRequest('Invalid token');
+            throw ApiErrors.unathourizedAcess('Invalid token');
         }
         const newPassword = await Admin.findByIdAndUpdate(id, { password: encryptPassword }, { new: true });
         // CREATES A LOGIN TOKEN AUTO LOGIN AFTER SUCCESSFUL PASSWORD RESET
         const token = adminToken(newPassword._id);
         res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
-        console.log(newPassword._id)
         return res.status(200).json({message: 'Login Successful', admin: newPassword._id});
     } catch (err) {
         next(err);

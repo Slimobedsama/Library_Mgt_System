@@ -37,23 +37,4 @@ const librarianAuth = (req, res, next)=> {
     }
 }
 
-// RESET PASSWORD AUTH
-const resetAuth = (req, res, next)=> {
-    // SET TOKEN REQUEST IN THE COOKIE
-    const token = req.cookies.admin;
-    if(token) {
-        jwt.verify(token, process.env.JWT_PASS, (err, decoded)=> {
-            if(err) {
-                return res.status(401).json({error: 'Unauthorized Access'});
-            } else {
-                console.log(decoded);
-                next();
-            }
-        });
-    } else {
-        return res.status(401).json({error: 'Unauthorized Access'});
-    }
-}
-
-
-export { adminAuth, librarianAuth, resetAuth };
+export { adminAuth, librarianAuth  };

@@ -51,6 +51,7 @@ export const accessAdmin = async(req, res, next)=> {
         
         if(checkMail) {
             const checkPassword = await bcrypt.compare(password, checkMail.password);
+            console.log(checkPassword);
             if(checkPassword) {
                 const token = adminToken(checkMail._id);
                 res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
@@ -80,15 +81,15 @@ export const adminLostPass = async(req, res, next)=> {
         const userId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
         const resetToken = adminResetToken(findEmail._id);
-        res.cookie('admin', resetToken, { httpOnly: true, maxAge: RESET});
+        res.cookie('reset', resetToken, { httpOnly: true, maxAge: RESET});
         // // SEND EMAIL WITH TOKEN
         await emailSender({
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
             to: `${ findEmail.email }`,
             subject: 'Password Reset Link',
-            html: `<h2>Please Click on the Link For Password Reset <a href="http://localhost:9000/api/admins/reset-password/${userId}">${resetToken}</a></h2>`
-        })
-        return res.status(200).json({ message: 'Email Sent', userId });
+            html: `<h2>Please Click on the Link For Password Reset. You 10 minutes before it becomes invalid.<br><a href="http://localhost:9000/api/admins/reset-password/${userId}">${resetToken}</a></h2>`
+        });
+        return res.status(200).json({ message: 'Check your mail for reset link', userId });
     } catch (err) {
         next(err);
     }
@@ -97,15 +98,21 @@ export const adminLostPass = async(req, res, next)=> {
 // ADMIN RESET PASSWORD
 export const adminRetrievePass = async(req, res, next)=> {
     const { password } = req.body;
-    const id = req.params.id;
+    const { id } = req.params;
+    const { reset } = req.cookies;
     try {
-        // FIND ADMIN ID
-        const findId = await Admin.findById(id);
-        // HASH PASSWORD
+        // HASHES PASSWORD
         const encryptPassword = await bcrypt.hash(password, 12);
-        findId.password = encryptPassword;
-        findId.save();
-        res.status(201).json({ message: 'Password Reset Successful' });
+        // FIND BY ID AND UPDATES NEW PASSWORD
+        if(!reset) {
+            throw ApiErrors.badRequest('Invalid token');
+        }
+        const newPassword = await Admin.findByIdAndUpdate(id, { password: encryptPassword }, { new: true });
+        // CREATES A LOGIN TOKEN AUTO LOGIN AFTER SUCCESSFUL PASSWORD RESET
+        const token = adminToken(newPassword._id);
+        res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
+        console.log(newPassword._id)
+        return res.status(200).json({message: 'Login Successful', admin: newPassword._id});
     } catch (err) {
         next(err);
     }

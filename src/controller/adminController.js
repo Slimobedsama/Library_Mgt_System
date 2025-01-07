@@ -51,7 +51,6 @@ export const accessAdmin = async(req, res, next)=> {
         
         if(checkMail) {
             const checkPassword = await bcrypt.compare(password, checkMail.password);
-            console.log(checkPassword);
             if(checkPassword) {
                 const token = adminToken(checkMail._id);
                 res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});

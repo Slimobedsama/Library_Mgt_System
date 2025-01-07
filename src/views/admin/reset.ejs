@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<%- include('../partials/head') %>
+<body>
+    <div id="form-content">
+        <form action="" method="post" id="form" class="login" novalidate>
+            <div class="msg">
+                <h2>Reset Password</h2>
+            </div>
+            <div class="input-style">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <i class="fa fa-eye"></i>
+                <div class="msgs password-msg"></div>
+            </div>
+            <div class="btn-reset">
+                <div>
+                    <input type="submit" value="Reset">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="/javascript/admin/reset.js"></script>
+</body>
+</html>

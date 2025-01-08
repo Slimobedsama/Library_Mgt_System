@@ -116,6 +116,12 @@ export const adminRetrievePass = async(req, res, next)=> {
     }
 }
 
+// LOGOUT
+export const adminLogout = (req, res)=> {
+    res.clearCookie('admin', '', { maxAge: 1 });
+    res.redirect('/api/admins/login');
+}
+
 // ADMIN VIEW LOGIC
 export const adminViewLogin = async(req, res)=> {
     res.render('./admin/login', { title: 'Admin Login' });

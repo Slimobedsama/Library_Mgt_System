@@ -77,7 +77,7 @@ export const adminLostPass = async(req, res, next)=> {
         if(!findEmail) {
             throw ApiErrors.notFound('This email is not found');
         }
-        const userId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
+        const adminId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
         // GENERATE TOKEN
         const resetToken = adminResetToken(findEmail._id);
         res.cookie('reset', resetToken, { httpOnly: true, maxAge: RESET});
@@ -86,9 +86,9 @@ export const adminLostPass = async(req, res, next)=> {
             from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
             to: `${ findEmail.email }`,
             subject: 'Password Reset Link',
-            html: `<h2>Please Click on the Link For Password Reset. You 10 minutes before it becomes invalid.<br><a href="http://localhost:9000/api/admins/reset-password/${userId}">${resetToken}</a></h2>`
+            html: `<h2>Please Click on the Link For Password Reset. You 10 minutes before it becomes invalid.<br><a href="http://localhost:9000/api/admins/reset-password/${adminId}">${resetToken}</a></h2>`
         });
-        return res.status(200).json({ message: 'Check your mail for reset link', userId });
+        return res.status(200).json({ message: 'Check your mail for reset link', adminId });
     } catch (err) {
         next(err);
     }
@@ -116,8 +116,14 @@ export const adminRetrievePass = async(req, res, next)=> {
     }
 }
 
+// LOGOUT
+export const adminLogout = (req, res)=> {
+    res.clearCookie('admin', '', { maxAge: 1 });
+    res.redirect('/api/admins/login');
+}
+
 // ADMIN VIEW LOGIC
-export const adminViewLogin = async(req, res)=> {
+export const adminViewLogin = (req, res)=> {
     res.render('./admin/login', { title: 'Admin Login' });
 }
 

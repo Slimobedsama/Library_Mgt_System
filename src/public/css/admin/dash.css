@@ -1,0 +1,14 @@
+.mini-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+.mini-nav h3, .mini-nav a {
+    color: #fff;
+}
+.mini-nav a {
+    padding: 7px;
+    background-color: #ff0000;
+    font-weight: 600;
+    border-radius: 7px;
+}

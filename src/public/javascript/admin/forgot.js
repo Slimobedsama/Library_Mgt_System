@@ -16,8 +16,9 @@ form.addEventListener('submit', async(e)=> {
             body: JSON.stringify({ email: email })
         });
         const data = await res.json();
+        console.log(data);
         
-        if(data.userId) {
+        if(data.adminId) {
            emailMsg.textContent = data.message;
         }
     

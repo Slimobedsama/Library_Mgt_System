@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <%- include('../partials/head') %>
-<body>
-    <h1>Welcome Admin</h1>
+<body id="body">
+    <div class="mini-nav">
+        <% if(admin) { %>
+            <h3>Welcome <%= admin.firstName %></h3>
+        <% } %>
+        <a href="/api/admins/logout">Logout</a>
+        </div>
 </body>
 </html>

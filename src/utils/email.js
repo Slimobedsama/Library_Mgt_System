@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import logger from '../logger.js';
 
 const emailSender = async(info)=> {
     try {
@@ -11,9 +12,9 @@ const emailSender = async(info)=> {
             }
         });
         const userInfo = await transporter.sendMail(info);
-        console.log(`Email sent ${userInfo.messageId}`);
+        logger.info(`Email sent ${userInfo.messageId}`);
     } catch (err) {
-        console.log(err.message)
+        logger.error(err.message)
     }
 }
 

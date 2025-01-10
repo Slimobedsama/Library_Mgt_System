@@ -1,5 +1,6 @@
 import { body, validationResult } from 'express-validator';
 import Admin from '../models/adminModel.js';
+import logger from '../logger.js';
 
 // ADMIN VALIDATION
 const adminSingupVal = 
@@ -14,6 +15,7 @@ const adminSingupVal =
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            logger.error(errors.array().map( error => error.msg))
             return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();
@@ -27,6 +29,7 @@ const loginValAdmin =
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            logger.error(errors.array().map( error => error.msg));
             return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();
@@ -39,6 +42,7 @@ const resetPassValidate =
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            logger.error(errors.array().map( error => error.msg))
             return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();

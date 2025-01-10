@@ -8,8 +8,11 @@ body, h1, h2, h3, h4, h4, h5, h6, p, ul {
     padding: 0;
 }
 body {
-    background-image: url('../../images/library-books.jpg');
+    background-image: url('../../images/jonathan-francisca-BpbkLACP64M-unsplash.jpg');
     background-size: cover;
+}
+a {
+    text-decoration: none;
 }
 /* ADMIN LOGIN FORM */
 #form-content {

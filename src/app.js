@@ -6,6 +6,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
+import logger from './logger.js';
 import adminRouter from './routes/adminRoute.js';
 import librarianRouter from './routes/librarianRoute.js';
 import userRouter from './routes/userRoute.js';
@@ -13,6 +14,7 @@ import bookRouter from './routes/bookRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import errorHandler from './middleware/errorHandler.js';
 
+const morganFormat = ":method :url :status :response-time ms";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -28,7 +30,21 @@ app.set('view engine', 'ejs');
 // COOKIE MIDDLEWARE
 app.use(cookieParser());
 // MORGAN MIDDLEWARE
-app.use(morgan('dev'));
+app.use(
+    morgan(morganFormat, {
+      stream: {
+        write: (message) => {
+          const logObject = {
+            method: message.split(" ")[0],
+            url: message.split(" ")[1],
+            status: message.split(" ")[2],
+            responseTime: message.split(" ")[3],
+          };
+          logger.info(JSON.stringify(logObject));
+        },
+      },
+    })
+  );
 // ROUTES MIDDLEWARES
 app.use('/api/admins', adminRouter);
 app.use('/api/librarians', librarianRouter);

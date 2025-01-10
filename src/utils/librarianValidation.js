@@ -1,7 +1,8 @@
 import { body, validationResult } from 'express-validator';
 import Librarian from '../models/librarianModel.js';
+import logger from '../logger.js';
 
-// ADMIN VALIDATION
+// LIBRARIAN VALIDATION
 export const librarianSingupVal = 
 [
     body('lastName').notEmpty().withMessage('Enter Last Name'),
@@ -15,7 +16,7 @@ export const librarianSingupVal =
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log(errors.array().map( error => error.msg));
+            logger.error(errors.array().map( error => error.msg))
             return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();
@@ -31,7 +32,7 @@ export const librarianUpdateVal =
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log(errors.array().map( error => error.msg));
+            logger.error(errors.array().map( error => error.msg))
             return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();

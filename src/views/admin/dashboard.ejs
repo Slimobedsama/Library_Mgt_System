@@ -5,7 +5,24 @@
         <% if(admin) { %>
             <h3>Welcome <%= admin.firstName %></h3>
         <% } %>
-        <a href="/api/admins/logout">Logout</a>
+        <ul>
+            <li class="link"><a href="#">Librarian</a></li>
+            <li class="link"><a href="/api/admins/logout">Logout</a></li>
+        </ul>
+        </div>
+        <div class="images">
+            <div class="icons">
+                <div id="person">
+                    <div class="connect"><h3>Librarian</h3></div>
+                    <img src="../../images/person_icon.png" alt="person">
+                    <div class="connect"><a href="#">Signup</a></div>
+                </div>
+                <div id="book">
+                    <div class="connect"><h3>Books</h3></div>
+                    <img src="../../images/Book_stack.jpg" alt="book stack">
+                    <div class="connect"><a href="#">Click Here</a></div>
+                </div>
+            </div>
         </div>
 </body>
 </html>

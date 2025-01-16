@@ -5,7 +5,7 @@
     position: sticky;
     top: 0;
 }
-.mini-nav h3, .mini-nav ul, .mini-nav a, .connect h3, .connect a {
+.mini-nav h3, .mini-nav ul, .mini-nav a, .connect h3, .connect a, footer {
     color: #fff;
 }
 .connect a {
@@ -13,7 +13,7 @@
     background-color: #ff0000;
     border-radius: 7px;
 }
-.link a, .connect a {
+.link a, .connect a, footer {
     font-weight: 600;
 }
 .mini-nav ul {
@@ -63,4 +63,9 @@
         width: 130px;
         object-fit: cover;
     }
+}
+footer {
+    text-align: center;
+    position: sticky;
+    bottom: 0;
 }

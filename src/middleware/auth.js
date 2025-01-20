@@ -10,7 +10,7 @@ const adminAuth = (req, res, next)=> {
             if(err) {
                 res.redirect('/api/admins/login')
             } else {
-                logger.info(`id: ${decoded.id}, iat: ${decoded.iat}, exp: ${decoded.exp}`);
+                logger.info(`{id: ${decoded.id}, iat: ${decoded.iat}, exp: ${decoded.exp}}`);
                 next();
             }
         })

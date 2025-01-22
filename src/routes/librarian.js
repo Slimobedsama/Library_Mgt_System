@@ -1,16 +1,15 @@
 import express from 'express';
 const Router = express.Router();
-import { getEveryLibrarian, getOneLibrarian, reqisterLibrarian, accessLibrarian, modifyLabrarian, removeLibrarian, librarianLostPassword, librarianResetPass } from '../controller/librarianController.js';
+import { getEveryLibrarian, getOneLibrarian, reqisterLibrarian, accessLibrarian, modifyLabrarian, removeLibrarian, librarianLostPassword, librarianResetPass } from '../controller/librarian.js';
 import { adminAuth, librarianAuth } from '../middleware/auth.js';
-import { librarianSingupVal, librarianUpdateVal } from '../utils/librarianValidation.js';
-
-Router.get('/all', adminAuth, getEveryLibrarian);
+import { librarianSingupVal, librarianUpdateVal, resetPassValidate } from '../utils/librarianValidation.js';
+Router.get('/', adminAuth, getEveryLibrarian);
 Router.get('/:id', adminAuth, getOneLibrarian);
 Router.post('/signup', adminAuth, librarianSingupVal, reqisterLibrarian);
 Router.post('/login', accessLibrarian);
 Router.post('/forgot-password', librarianLostPassword);
-Router.post('/reset-password', librarianResetPass);
 Router.patch('/:id', librarianUpdateVal, librarianAuth, modifyLabrarian);
+Router.patch('/reset-password/:id', resetPassValidate, librarianResetPass);
 Router.delete('/:id', adminAuth, removeLibrarian);
 
 export default Router;

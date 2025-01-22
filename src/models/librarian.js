@@ -12,7 +12,8 @@ const librarianSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
     phone: {
         type: String,

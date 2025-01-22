@@ -1,11 +1,11 @@
+import Admin from "../models/admin.js";
+import ApiErrors from '../errors/ApiErrors.js';
 import bcrypt from 'bcrypt';
-import Admin from "../models/adminModel.js";
 import { adminToken, adminResetToken } from "../utils/genToken.js";
 import emailSender from '../utils/email.js';
-import ApiErrors from '../errors/ApiErrors.js';
 
 export const findAllAdmin = async()=> {
-    const getAdmins = await Admin.find();
+    const getAdmins = await Admin.find().sort({ lastName: 'asc' });
 
     if(!getAdmins) {
         throw ApiErrors.internalServer('Error fetching admins');

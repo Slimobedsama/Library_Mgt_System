@@ -1,6 +1,6 @@
 import express from 'express';
 const Router = express.Router();
-import { allAdmin, registerAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminLogout, adminViewLogin, dashBoardAdmin, lostPassword, resetPassword } from '../controller/adminController.js';
+import { allAdmin, registerAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminLogout, adminViewLogin, dashBoardAdmin, lostPassword, resetPassword } from '../controller/admin.js';
 import { adminAuth, checkAdmin } from '../middleware/auth.js';
 import { adminSingupVal, resetPassValidate, loginValAdmin } from '../utils/adminValidation.js';
 

@@ -1,12 +1,12 @@
 import { body, validationResult } from 'express-validator';
-import Admin from '../models/adminModel.js';
+import Admin from '../models/admin.js';
 import logger from '../logger.js';
 
 // ADMIN VALIDATION
 const adminSingupVal = 
 [
-    body('lastName').notEmpty().withMessage('Enter last name'),
-    body('firstName').notEmpty().withMessage('Enter first name'),
+    body('lastName').trim().notEmpty().isAlpha().withMessage('Enter last name'),
+    body('firstName').trim().notEmpty().isAlpha().withMessage('Enter first name'),
     body('email').isEmail().withMessage('Enter a valid email address').custom(async value => {
         const checkEmail = await Admin.findOne({ email: value });
         if (checkEmail) throw new Error("This email already exists");
@@ -25,7 +25,7 @@ const adminSingupVal =
 const loginValAdmin = 
 [
     body('email').notEmpty().withMessage('Email is required'),
-    body('password').notEmpty().withMessage('Password is required'),
+    body('password').trim().notEmpty().withMessage('Password is required'),
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

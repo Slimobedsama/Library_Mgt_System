@@ -20,6 +20,7 @@ const adminSchema = new mongoose.Schema({
         required: true
     }
 }, {timestamps: true});
+
 adminSchema.index({ email: 1, password: 1 });
 
 const Admin = mongoose.model('Admin', adminSchema);

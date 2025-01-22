@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Admin from '../models/adminModel.js';
+import Admin from '../models/admin.js';
 import logger from '../logger.js';
 
 // ADMIN AUTH
@@ -24,7 +24,7 @@ const librarianAuth = (req, res, next)=> {
     // SET TOKEN REQUEST IN THE COOKIE
     const token = req.cookies.lib;
     if(token) {
-        jwt.verify(token, process.env.JWT_KEY, (err, decoded)=> {
+        jwt.verify(token, process.env.JWT_LIB, (err, decoded)=> {
             if(err) {
                 return res.status(401).json({error: 'Unauthorized Access'});
             } else {

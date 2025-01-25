@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 import logger from './logger.js';
 import adminRouter from './routes/admin.js';
 import librarianRouter from './routes/librarian.js';
-import userRouter from './routes/userRoute.js';
+import userRouter from './routes/user.js';
 import bookRouter from './routes/book.js';
 import orderRouter from './routes/orderRoute.js';
 import errorHandler from './middleware/errorHandler.js';

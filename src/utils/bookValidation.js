@@ -5,12 +5,12 @@ import logger from '../logger.js';
 const validateCreateBook = 
 [
     body('author').trim().notEmpty().isAlpha('en-US', {ignore: ' '}).withMessage('Author is required'),
-    body('title').trim().notEmpty().isAlpha('en-US', {ignore: ' '}).withMessage('Author is required'),
+    body('title').trim().notEmpty().isAlpha('en-US', {ignore: ' '}).withMessage('Title is required'),
     body('publishedYear').isDate().withMessage('Published year must be a valid date'),
     body('quantity').isNumeric().withMessage('Quantity should be number'),
     body('ISBN').isISBN('number' | { version: '10' || '13' }).withMessage('ISBN should be a valid ISBN number').custom(async value=> {
         const checkISBN = await Book.findOne({ ISBN: value });
-            if (checkISBN) throw new Error('This ISBN number already exists');
+            if (checkISBN) throw new Error('The ISBN number already exists');
     }),
     (req, res, next)=> {
         const errors = validationResult(req);

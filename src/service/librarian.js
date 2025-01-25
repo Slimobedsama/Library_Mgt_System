@@ -6,7 +6,7 @@ import Librarian from "../models/librarian.js";
 
 
 export const getAllLibrarian = async function() {
-    const allLibrarian = await Librarian.find().sort({ lastName: 'asc' });
+    const allLibrarian = await Librarian.find().sort({ lastName: 'asc' }).select(['lastName', 'firstName', 'phone']);
     if(!allLibrarian) {
         throw ApiErrors.internalServer('Error fetching Librarians');
     }
@@ -16,7 +16,7 @@ export const getAllLibrarian = async function() {
 
 export const getSingleLibrarian = async function(params) {
     const { id } = params;
-    const singleLibrarian = await Librarian.findById(id);
+    const singleLibrarian = await Librarian.findById(id).select(['lastName', 'firstName', 'phone']);
     if(!singleLibrarian) {
         throw ApiErrors.notFound(`Librarian with id ${ id } not found`);
     }

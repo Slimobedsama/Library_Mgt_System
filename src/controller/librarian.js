@@ -37,8 +37,8 @@ export const removeLibrarian = tryCatch(async(req, res)=> {
 
 export const librarianLostPassword = tryCatch(async(req, res)=> {
     const { librarianId, resetToken } = await librarianForgotPasswd(req.body)
-        res.cookie('reset', resetToken, { httpOnly: true, maxAge: RESET});
-        return res.status(200).json({ message:'Check your mail for reset link', librarianId });
+    res.cookie('reset', resetToken, { httpOnly: true, maxAge: RESET});
+    return res.status(200).json({ message:'Check your mail for reset link', librarianId });
 });
 
 export const librarianResetPass = tryCatch(async(req, res)=> {

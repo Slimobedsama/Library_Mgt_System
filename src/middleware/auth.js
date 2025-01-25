@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Admin from '../models/admin.js';
 import logger from '../logger.js';
+import ApiErrors from '../errors/ApiErrors.js';
 
 // ADMIN AUTH
 const adminAuth = (req, res, next)=> {
@@ -26,14 +27,14 @@ const librarianAuth = (req, res, next)=> {
     if(token) {
         jwt.verify(token, process.env.JWT_LIB, (err, decoded)=> {
             if(err) {
-                return res.status(401).json({error: 'Unauthorized Access'});
+                throw ApiErrors.unathourizedAcess('Unauthorized Access');
             } else {
                 logger.info(`id: ${decoded.id}, iat: ${decoded.iat}, exp: ${decoded.exp}`);
                 next();
             }
         });
     } else {
-        return res.status(401).json({error: 'Unauthorized Access'});
+        throw ApiErrors.unathourizedAcess('Unauthorized Access');
     }
 }
 

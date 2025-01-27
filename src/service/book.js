@@ -6,12 +6,14 @@ export const findAllBooks = async(query)=> {
     let findBooks;
     
     if(author || title) {
-        findBooks = await Book.find({ $or: [{ author }, { title }] });
+        findBooks = await Book.find({ $or: [{ author }, { title }] })
+        .select(['author', 'title', 'quantity', 'isAvailable']);
         if(findBooks.length === 0) {
             throw ApiErrors.notFound('No books with the search parameter found')
         }
     } else {
-        findBooks = await Book.find().sort({ author: 'asc' });
+        findBooks = await Book.find().sort({ author: 'asc' })
+        .select(['author', 'title', 'quantity', 'isAvailable']);
     }
 
     return findBooks;
@@ -19,7 +21,8 @@ export const findAllBooks = async(query)=> {
 
 export const findSingleBook = async(params)=> {
     const { id } = params;
-    const findOneBook = await Book.findById(id);
+    const findOneBook = await Book.findById(id)
+    .select(['author', 'title', 'quantity', 'isAvailable']);
 
     if(!findOneBook) {
         throw ApiErrors.notFound(`Book with id ${ id } not found...`);

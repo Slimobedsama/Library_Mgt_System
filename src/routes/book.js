@@ -1,6 +1,6 @@
 import express from 'express';
 const Router = express.Router();
-import { getAllBooks, getOneBook, createBook, removeBook } from '../controller/bookController.js';
+import { getAllBooks, getOneBook, createBook, removeBook } from '../controller/book.js';
 import validateCreateBook from '../utils/bookValidation.js';
 import { librarianAuth } from '../middleware/auth.js';
 

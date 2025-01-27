@@ -1,17 +1,18 @@
 import { body, validationResult } from 'express-validator';
-import User from '../models/userModel.js';
+import logger from '../logger.js';
+import User from '../models/user.js';
 
 const userSignupVal = 
 [
-    body('lastName').notEmpty().withMessage('Last name is required'),
-    body('firstName').notEmpty().withMessage('First name is required'),
-    body('sex').notEmpty().withMessage('Sex is required'),
-    body('address').notEmpty().withMessage('Address is required'),
-    body('phoneNumber').isMobilePhone('en-NG').withMessage('Enter a valid Nigerian mobile number').custom(async value=> {
+    body('lastName').trim().notEmpty().isAlpha().withMessage('Last name is required'),
+    body('firstName').trim().notEmpty().isAlpha().withMessage('First name is required'),
+    body('sex').trim().notEmpty().isAlpha().withMessage('Sex is required'),
+    body('address').trim().notEmpty().isAlphanumeric('en-GB', {ignore: ' '}).withMessage('Address is required'),
+    body('phoneNumber').isMobilePhone(['en-NG', 'en-US']).withMessage('Enter a valid Nigerian mobile number').custom(async value=> {
         const checkMobile = await User.findOne({ phoneNumber: value });
         if (checkMobile) throw new Error ('Phone number has already been registered')
     }),
-    body('email').isEmail().withMessage('Enter a valid email').custom(async value=> {
+    body('email').isEmail().withMessage('Enter a valid email address').custom(async value=> {
         const checkEmail = await User.findOne({ email: value });
         if (checkEmail) throw new Error ('Email has already been registered')
     }),
@@ -27,8 +28,8 @@ const userSignupVal =
 
 const userEditVal = 
 [
-    body('address').notEmpty().withMessage('Enter an address'),
-    body('phoneNumber').isMobilePhone('en-NG').withMessage('Enter a valid Nigerian mobile number'),
+    body('address').trim().notEmpty().isAlphanumeric('en-GB', {ignore: ' '}).withMessage('Enter an address'),
+    body('phoneNumber').isMobilePhone('en-NG').withMessage('Enter a valid nigerian mobile number'),
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

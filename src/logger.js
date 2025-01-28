@@ -1,18 +1,21 @@
 import { createLogger, format, transports } from "winston";
+import winstonTimestampColorize from "winston-timestamp-colorize";
 const { combine, timestamp, json, colorize } = format;
+const timestampColorize = winstonTimestampColorize;
 
 // Custom format for console logging with colors
 const consoleLogFormat = format.combine(
-  format.colorize(),
+  format.colorize({all: true}),
+  timestampColorize(),
   format.printf(({ level, message, timestamp }) => {
-    return `${level}: ${message}`;
+    return `${timestamp}: ${level}: ${message}`;
   })
 );
 
 // Create a Winston logger
 const logger = createLogger({
   level: "info",
-  format: combine(colorize({all: true}), timestamp(), json()),
+  format: combine(timestamp({format: 'YY-MM-DD HH:MM:SS'}), json()),
   transports: [
     new transports.Console({
       format: consoleLogFormat,

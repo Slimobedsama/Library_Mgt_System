@@ -2,7 +2,7 @@ import express from 'express';
 const Router = express.Router();
 import { allAdmin, accessAdmin, adminLostPass, adminRetrievePass, adminLogout, adminViewLogin, dashBoardAdmin, lostPassword, resetPassword } from '../controller/admin.js';
 import { adminAuth, checkAdmin } from '../middleware/auth.js';
-import { resetPassValidate, loginValAdmin } from '../utils/adminValidation.js';
+import { resetPassValidate, loginValAdmin } from '../middleware/validator/adminValidation.js';
 
 // ADMIN VIEW ROUTES
 Router.get('*', checkAdmin);

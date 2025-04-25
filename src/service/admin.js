@@ -14,39 +14,23 @@ export const findAllAdmin = async()=> {
     return getAdmins;
 }
 
-export const adminSignup = async(body)=> {
-    const { lastName, firstName, email, password } = body;
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const createAdmin = await Admin.create({
-        lastName: lastName,
-        firstName: firstName,
-        email: email,
-        password: hashedPassword
-    });
-    const token = adminToken(createAdmin._id);
-    await emailSender({
-        from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
-        to: `${ createAdmin.email }`,
-        subject: 'Email Verification Link',
-        html: `<h2> Welcome ${ lastName } ${ firstName }. Please verify your email with the link <a href="http://localhost:9000/api/admins/dash-board">${token}</a></h2>`
-    });
-    return { createAdmin, token }
-}
-
 export const signIn = async(body)=> {
     const { email, password } = body;
     // CHECKS FOR EMAIL
-    const checkMail = await Admin.findOne({ email });
+    // const checkMail = await Admin.findByEmail(email);
     
-    if(checkMail) {
-        const checkPassword = await bcrypt.compare(password, checkMail.password);
-        if(checkPassword) {
-            const token = adminToken(checkMail._id);
-            return { checkMail, token };
-        }
-        throw ApiErrors.badRequest('Incorrect password');
-    }
-    throw ApiErrors.notFound('This email does not exist');
+    // if(checkMail) {
+    //     const checkPassword = await bcrypt.compare(password, checkMail.password);
+    //     if(checkPassword) {
+    //         const token = adminToken(checkMail._id);
+    //         return { checkMail, token };
+    //     }
+    //     throw ApiErrors.badRequest('Incorrect password');
+    // }
+    // throw ApiErrors.notFound('This email does not exist');
+    const admin = await Admin.login(email, password);
+    const token = adminToken(admin._id);
+    return { admin, token };
 }
 
 export const adminForgotPass = async(body)=> {
@@ -55,7 +39,7 @@ export const adminForgotPass = async(body)=> {
         throw ApiErrors.badRequest('Email is required');
     }
 
-    const findEmail = await Admin.findOne({ email });
+    const findEmail = await Admin.findByEmail(email);
     if(!findEmail) {
         throw ApiErrors.notFound('This email is not found');
     }

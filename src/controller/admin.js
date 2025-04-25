@@ -1,7 +1,6 @@
 import { EXPIRES, RESET } from '../utils/maxAge.js';
 import tryCatch from '../utils/tryCatch.js';
-import { findAllAdmin, adminSignup, signIn, adminForgotPass, adminResetPass } from '../service/admin.js';
-
+import { findAllAdmin, signIn, adminForgotPass, adminResetPass } from '../service/admin.js';
 
 // ALL ADMIN
 export const allAdmin = tryCatch(async(req, res)=> {
@@ -9,18 +8,11 @@ export const allAdmin = tryCatch(async(req, res)=> {
     return res.status(200).json(getAllAdmin);
 });
 
-// SIGNUP
-export const registerAdmin = tryCatch(async(req, res)=> {
-    const { createAdmin, token } = await adminSignup(req.body);
-    res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES});
-    res.status(201).json({message: 'Admin Created...', Admin: createAdmin._id, mail: 'Email sent'});
-});
-
 // LOGIN
 export const accessAdmin = tryCatch(async(req, res)=> {
-    const { checkMail, token } = await signIn(req.body);
+    const { admin, token } = await signIn(req.body);
     res.cookie('admin', token, {httpOnly: true, maxAge: EXPIRES });
-    res.status(200).json({ message: 'Login successful', Admin: checkMail._id });
+    res.status(200).json({ message: 'Login successful', Admin: admin._id });
 });
 
 // ADMIN FORGOTTEN PASSWORD

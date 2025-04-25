@@ -1,7 +1,7 @@
 import express from 'express';
 const Router = express.Router();
 import { allUsers, getOneUser, registerUsers, modifyUser, removeUser } from '../controller/user.js';
-import { userSignupVal, userEditVal } from '../utils/userValidation.js';
+import { userSignupVal, userEditVal } from '../middleware/validator/userValidation.js';
 import { librarianAuth } from '../middleware/auth.js';
 
 Router.get('/', librarianAuth, allUsers);

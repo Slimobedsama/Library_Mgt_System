@@ -6,12 +6,14 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
+import livereload from "livereload";
+import connectLiveReload  from "connect-livereload";
 import logger from './logger.js';
-import adminRouter from './routes/admin.js';
-import librarianRouter from './routes/librarian.js';
-import userRouter from './routes/user.js';
-import bookRouter from './routes/book.js';
-import orderRouter from './routes/order.js';
+import adminRouter from './services/admin/routes/admin.js';
+import librarianRouter from './services/librarian/routes/librarian.js';
+import userRouter from './services/user/routes/user.js';
+import bookRouter from './services/book/routes/book.js';
+import orderRouter from './services/order/routes/order.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const morganFormat = ":method :url :status :response-time ms";
@@ -27,8 +29,19 @@ app.use(express.static(join(__dirname, 'public')));
 // TEMPLATE ENGINE
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+// LIVE RELOAD MIDDLEWARE
+if (process.env.NODE_ENV !== 'production') {
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
+  
+  app.use(connectLiveReload());
+}
 // COOKIE MIDDLEWARE
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 // MORGAN MIDDLEWARE
 app.use(
     morgan(morganFormat, {

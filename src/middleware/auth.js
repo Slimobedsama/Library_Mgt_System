@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Admin from '../models/admin.js';
+import Admin from '../services/admin/model/admin.js';
 import logger from '../logger.js';
 import ApiErrors from '../errors/ApiErrors.js';
 

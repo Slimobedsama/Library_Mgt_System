@@ -1,5 +1,4 @@
 import { body, validationResult } from 'express-validator';
-import Librarian from '../model/librarian.js';
 import LibrarianDao from '../dao/librarianDao.js';
 import logger from '../../../logger.js';
 
@@ -14,7 +13,7 @@ export const librarianSingupVal =
     }),
     body('phone').isMobilePhone('en-NG').withMessage('Enter a valid nigerian mobile number'),
     body('password').notEmpty().withMessage('Password is required')
-    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must bemMinimum of 6 Characters, 1 uppercase, 1 lowercase & 1 number'),
+    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be minimum of 6 Characters, 1 uppercase, 1 lowercase & 1 number'),
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

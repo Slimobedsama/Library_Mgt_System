@@ -5,7 +5,7 @@ import ApiErrors from '../errors/ApiErrors.js';
 
 // ADMIN AUTH
 const adminAuth = (req, res, next)=> {
-    const token = req.cookies.admin;
+    const token = req.signedCookies.admin || req.headers.authorization; //CROSS PLATFORM(MOBILE & WEB)
     if(token) {
         jwt.verify(token, process.env.JWT_ADM, (err, decoded)=> {
             if(err) {

@@ -1,26 +1,21 @@
-import { signedCookie } from 'cookie-parser';
 import { EXPIRES, RESET } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
-import { loginFactory, forgotPasswordFactory, resetPassFactory } from '../factory/admin.js'
+import { loginFactory, forgotPasswordFactory, resetPassFactory } from '../factory/admin.js';
+import setSignedCookie from '../../../utils/cookies.js';
 
 
 // LOGIN
 export const accessAdmin = tryCatch(async(req, res)=> {
     const { admin, token } = await loginFactory(req.body);
-    res.cookie('admin', token, {
-        signed: true,
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true, maxAge: EXPIRES,
-        sameSite: 'strict'
-    });
-    res.status(200).json({ message: 'Login successful', Admin: admin._id });
+    setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
+    res.status(200).json({ message: 'Login successful', Admin: admin._id, token });
 });
 
 // ADMIN FORGOTTEN PASSWORD
 export const adminLostPass = tryCatch(async(req, res)=> {
     const { adminId, resetToken } = await forgotPasswordFactory(req.body);
-    res.cookie('reset', resetToken, { httpOnly: true, maxAge: RESET});
-    return res.status(200).json({ message: 'Check your mail for reset link', adminId });
+    setSignedCookie(res, 'reset', resetToken, { maxAge: RESET });
+    return res.status(200).json({ message: 'Check your mail for reset link', data: adminId });
 });
 
 // ADMIN RESET PASSWORD

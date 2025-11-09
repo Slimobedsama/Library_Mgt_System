@@ -6,8 +6,11 @@
             <div class="msg">
                 <h2>Admin Login</h2>
             </div>
+            <% if (error) { %>
+                <div class="error-msg"><%= error %></div>
+            <% } %>
             <div class="input-style">
-                <input type="email" name="email" id="email" placeholder="Email" required>
+                <input type="email" name="email" id="email" placeholder="Email" value="<%= email %>" required>
                 <div class="msgs email-msg"></div>
             </div>
             <div class="input-style">

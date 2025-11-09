@@ -6,9 +6,21 @@ import emailSender from '../../../utils/email.js';
 
 export const loginFactory = async(body)=> {
     const { email, password } = body;
-    const admin = await AdminDao.login(email, password);
-    const token = adminToken(admin._id);
-    return { admin, token };
+    const admin = await AdminDao.getEmail(email);
+    let token;
+
+    if(!admin) {
+        throw ApiErrors.badRequest('Incorrect email or password');
+    } else {
+        const checkPassword = await bcrypt.compare(password, admin.password);
+        
+        if(!checkPassword) {
+            throw ApiErrors.badRequest('Incorrect username or password');
+        }
+        token = adminToken(checkPassword._id);
+    }
+    
+    return { email: admin.email, token };
 }
 
 export const forgotPasswordFactory = async(body)=> {

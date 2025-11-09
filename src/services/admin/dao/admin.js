@@ -18,19 +18,6 @@ class AdminDao {
             { new: true }
         );
     }
-    
-    static async login(email, password) {
-        const confirmEmail = await AdminDao.getEmail(email);
-        if(confirmEmail) {
-            const checkPassword = await bcrypt.compare(password, confirmEmail.password);
-            if(checkPassword) {
-                return confirmEmail;
-            }
-            throw ApiErrors.notFound('Incorrect password');
-            }
-            throw ApiErrors.notFound('Email not found');
-    }
-
 }
 
 export default AdminDao;

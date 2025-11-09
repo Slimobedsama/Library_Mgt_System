@@ -18,49 +18,49 @@ function passwordVisiblity() {
     }
 }
 
-async function loginForm(e) {
-    e.preventDefault();
+// async function loginForm(e) {
+//     e.preventDefault();
 
-    email = form.email.value;
-    password = form.password.value;
-    // CLEARS ERROR MESSAGES
-    emailMsg.textContent = '';
-    passwordMsg.textContent = '';
+//     email = form.email.value;
+//     password = form.password.value;
+//     // CLEARS ERROR MESSAGES
+//     emailMsg.textContent = '';
+//     passwordMsg.textContent = '';
 
-    try {
-        const response = await fetch('/api/admins/login', {
-            method: 'POST',
-            headers: { 'content-Type': 'application/json'},
-            body: JSON.stringify({ email, password })
-        });
-        const data = await response.json();
+//     try {
+//         const response = await fetch('/api/admins/login', {
+//             method: 'POST',
+//             headers: { 'content-Type': 'application/json'},
+//             body: JSON.stringify({ email, password })
+//         });
+//         const data = await response.json();
         
-        if(data.Admin) {
-            location.assign('/api/admins/dash-board');
-        }
+//         if(data.Admin) {
+//             location.assign('/api/admins/dash-board');
+//         }
 
-        if(data && data.errors) {
-            for(error of data.errors) {
-             if(error.includes('Email')) {
-                 emailMsg.textContent = error;
-             } else if(error.includes('Password')) {
-                 passwordMsg.textContent = error;
-             }
-            }
-        }
+//         if(data && data.errors) {
+//             for(error of data.errors) {
+//              if(error.includes('Email')) {
+//                  emailMsg.textContent = error;
+//              } else if(error.includes('Password')) {
+//                  passwordMsg.textContent = error;
+//              }
+//             }
+//         }
 
-        if (data && data.message) {
-            if(data.message.includes('email does not')) {
-                emailMsg.textContent = data.message;
-            } else if(data.message.includes('Incorrect password')) {
-                passwordMsg.textContent = data.message;
-            }
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
+//         if (data && data.message) {
+//             if(data.message.includes('email does not')) {
+//                 emailMsg.textContent = data.message;
+//             } else if(data.message.includes('Incorrect password')) {
+//                 passwordMsg.textContent = data.message;
+//             }
+//         }
+//     } catch (err) {
+//         console.log(err);
+//     }
+// }
 
 // EVENT LISTENERS
 toggleEye.addEventListener('click', passwordVisiblity);
-form.addEventListener('submit', loginForm);
+// form.addEventListener('submit', loginForm);

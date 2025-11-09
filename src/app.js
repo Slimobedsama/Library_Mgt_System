@@ -32,6 +32,13 @@ app.set('view engine', 'ejs');
 // LIVE RELOAD MIDDLEWARE
 if (process.env.NODE_ENV !== 'production') {
   const liveReloadServer = livereload.createServer();
+
+  // Tell livereload which directory to watchout for
+  liveReloadServer.watch([
+    join(__dirname, 'views'),
+    join(__dirname, 'public')
+  ]);
+  
   liveReloadServer.server.once("connection", () => {
     setTimeout(() => {
       liveReloadServer.refresh("/");

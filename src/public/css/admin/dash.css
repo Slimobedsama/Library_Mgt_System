@@ -9,7 +9,7 @@
     top: 0;
 }
 .mini-nav h3, .mini-nav ul, .mini-nav a, .connect h3, .connect a, footer {
-    color: #fff;
+    color: #333;
 }
 .connect a {
     padding: 7px;

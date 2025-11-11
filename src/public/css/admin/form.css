@@ -37,7 +37,7 @@ a {
     text-transform: uppercase;
     margin-bottom: 25px;
 }
-.msg h2, .msgs {
+.msg h2, .error-msg {
     color: #333;
 }
 .input-syle {
@@ -97,13 +97,10 @@ input {
   background-color: #ddd;
 }
 
-.msgs {
-    font-size: 1.04em;
-    font-weight: 600;
+.error-msg {
+    font-size: 1.01em;
+    font-weight: 500;
     text-align: justify;
-}
-.password-msg {
-    margin-top: -15px;
 }
 
 /* Responsive adjustments */

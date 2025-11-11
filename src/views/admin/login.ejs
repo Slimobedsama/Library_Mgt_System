@@ -6,18 +6,16 @@
             <div class="msg">
                 <h2>Admin Login</h2>
             </div>
-            <% if (error) { %>
-                <div class="error-msg"><%= error %></div>
-            <% } %>
             <div class="input-style">
                 <input type="email" name="email" id="email" placeholder="Email" value="<%= email %>" required>
-                <div class="msgs email-msg"></div>
             </div>
             <div class="input-style">
                 <input type="password" name="password" id="password" placeholder="Password" required>
                 <i class="fa fa-eye"></i>
-                <div class="msgs password-msg"></div>
             </div>
+            <% if (error) { %>
+                <div class="error-msg"><%= error %></div>
+            <% } %>
             <div class="btn">
                 <div>
                     <input type="submit" value="Login">

@@ -2,23 +2,24 @@ import { EXPIRES, RESET } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
 import { loginFactory, forgotPasswordFactory, resetPassFactory } from '../factory/admin.js';
 import setSignedCookie from '../../../utils/cookies.js';
-import ApiErrors from '../../../errors/ApiErrors.js';
 
 
 // LOGIN
 export const accessAdmin = tryCatch(async(req, res, next)=> {
-    const { email } = req.body;
     try {
         const { token } = await loginFactory(req.body);
         
         setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
         // res.status(200).json({ message: 'Login successful', Admin: admin._id, token });
         return res.redirect('dash-board');
-    } catch (err) {
-        if(err instanceof ApiErrors) {
-           return res.redirect(`/api/admins/login?${encodeURIComponent(err.message)}&email=${encodeURIComponent(email)}`);
-        }
-        next(err)
+    } catch (error) {
+        return res.render('./admin/login', 
+            {
+                title: 'Admin Login',
+                error: error.message || null,
+                email: req.body.email || ''
+            }
+        );
     }
 });
 
@@ -44,13 +45,11 @@ export const adminLogout = (req, res)=> {
 
 // ADMIN VIEW LOGIC
 export const adminViewLogin = (req, res)=> {
-    const { email, error } = req.query;
-
     res.render('./admin/login', 
         {
             title: 'Admin Login',
-            error: error || null,
-            email: email || ''
+            error: '',
+            email: ''
         }
     );
 }

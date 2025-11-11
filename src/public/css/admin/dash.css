@@ -1,3 +1,6 @@
+#body {
+    background: none;
+}
 .mini-nav {
     display: flex;
     justify-content: space-between;

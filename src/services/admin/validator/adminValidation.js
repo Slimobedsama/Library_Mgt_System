@@ -11,14 +11,16 @@ const loginValAdmin =
         if (!errors.isEmpty()) {
             logger.error(errors.array().map( error => error.msg));
             // return res.status(400).json({ errors: errors.array().map( error => error.msg) });
-            console.log('error:')
-           return res.render('./admin/login', 
-                {
-                    title: 'Admin Login',
-                    error: 'Invalid username or password',
-                    email: req.body.email || ''
-                }
-            );
+            req.flash('error', 'Incorrect email or password');
+            req.flash('email', req.body.email || '');
+            res.redirect('/api/admins/login');
+        //    return res.render('./admin/login', 
+        //         {
+        //             title: 'Admin Login',
+        //             error: req.flash('error', 'Incorrect username or password'),
+        //             email: req.body.email || ''
+        //         }
+        //     );
         }
         return next();
     }

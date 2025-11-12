@@ -13,9 +13,9 @@
                 <input type="password" name="password" id="password" placeholder="Password" required>
                 <i class="fa fa-eye"></i>
             </div>
-            <% if (error && error.length > 0) { %>
+            <!-- <% if (error && error.length > 0) { %>
                 <div class="error-msg"><%= error %></div>
-            <% } %>
+            <% } %> -->
             <div class="btn">
                 <div>
                     <input type="submit" value="Login">
@@ -27,7 +27,13 @@
         </form>
     </div>
     
-    <%- include('../partials/foot') %>
+    <%- include('../partials/foot') %>           
+    <script id="toast-data" type="application/json">
+        <%- JSON.stringify({
+            error: error || []
+        }) %>
+    </script>
     <script src="/javascript/admin/login.js"></script>
+    <script src="/javascript/toast.js"></script>
 </body>
 </html>

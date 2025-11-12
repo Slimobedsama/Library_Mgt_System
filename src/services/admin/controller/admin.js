@@ -45,8 +45,8 @@ export const adminViewLogin = (req, res)=> {
     res.render('./admin/login', 
         {
             title: 'Admin Login',
-            error: res.locals.error[0],
-            email: req.flash('email')[0] || ''
+            // error: res.locals.error[0], //Not rendered because the use of toastr
+            email: req.flash('email') || ''
         }
     );
 }

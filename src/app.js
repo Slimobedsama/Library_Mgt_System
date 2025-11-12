@@ -8,6 +8,8 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import livereload from "livereload";
 import connectLiveReload  from "connect-livereload";
+import session from 'express-session';
+import flash from 'connect-flash';
 import logger from './logger.js';
 import adminRouter from './services/admin/routes/admin.js';
 import librarianRouter from './services/librarian/routes/librarian.js';
@@ -49,6 +51,22 @@ if (process.env.NODE_ENV !== 'production') {
 }
 // COOKIE MIDDLEWARE
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, maxAge: 60000 },
+  })
+);
+app.use(flash());
+
+// MAKE FLASH AVAILABLE IN ALL VIEWS
+app.use((req, res, next) => {
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  next();
+});
 // MORGAN MIDDLEWARE
 app.use(
     morgan(morganFormat, {

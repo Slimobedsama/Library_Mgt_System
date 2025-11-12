@@ -10,16 +10,13 @@ export const accessAdmin = tryCatch(async(req, res, next)=> {
         const { token } = await loginFactory(req.body);
         
         setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
-        // res.status(200).json({ message: 'Login successful', Admin: admin._id, token });
+        req.flash('success', 'Login successful')
+        
         return res.redirect('dash-board');
     } catch (error) {
-        return res.render('./admin/login', 
-            {
-                title: 'Admin Login',
-                error: error.message || null,
-                email: req.body.email || ''
-            }
-        );
+        req.flash('error', error.message)
+        req.flash('email', req.body.email || '')
+        return res.redirect('/api/admins/login');
     }
 });
 
@@ -48,8 +45,8 @@ export const adminViewLogin = (req, res)=> {
     res.render('./admin/login', 
         {
             title: 'Admin Login',
-            error: '',
-            email: ''
+            error: res.locals.error[0],
+            email: req.flash('email')[0] || ''
         }
     );
 }

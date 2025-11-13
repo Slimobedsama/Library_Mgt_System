@@ -1,6 +1,4 @@
 import Admin from "../model/admin.js";
-import ApiErrors from "../../../errors/ApiErrors.js";
-import bcrypt from 'bcrypt';
 
 class AdminDao {
     constructor() {

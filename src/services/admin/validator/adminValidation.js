@@ -3,17 +3,19 @@ import logger from '../../../logger.js';
 
 const loginValAdmin = 
 [
-    body('email').isEmail(),
+    body('email').isEmail().withMessage('Email is required'),
     body('password')
-    .isStrongPassword({ minLength: 6, minSymbols: 0 }),
+    .isAlphanumeric().withMessage('Must be alphanumeric')
+    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Incorrect password'),
     (req, res, next)=> {
         const errors = validationResult(req);
+        
         if (!errors.isEmpty()) {
             logger.error(errors.array().map( error => error.msg));
-            // return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+
             req.flash('error', 'Incorrect email or password');
             req.flash('email', req.body.email || '');
-            res.redirect('/api/admins/login');
+            return res.redirect('/api/admins/login');
         //    return res.render('./admin/login', 
         //         {
         //             title: 'Admin Login',

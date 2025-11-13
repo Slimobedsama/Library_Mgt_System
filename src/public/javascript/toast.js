@@ -1,4 +1,3 @@
-console.log('hey')
 document.addEventListener("DOMContentLoaded", function () {
     // Toastr config
     toastr.options = {

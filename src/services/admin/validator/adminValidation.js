@@ -6,7 +6,7 @@ const loginValAdmin =
     body('email').isEmail().withMessage('Email is required'),
     body('password')
     .isAlphanumeric().withMessage('Must be alphanumeric')
-    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Incorrect password'),
+    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Must be alphanumeric with minimum of 6 characters'),
     (req, res, next)=> {
         const errors = validationResult(req);
         
@@ -26,6 +26,25 @@ const loginValAdmin =
         }
         return next();
     }
+];
+
+const validateAdminEmail = 
+[
+    body('email').notEmpty().withMessage('Enter a value')
+        .isEmail().withMessage('Enter a valid email'),
+    (req, res, next)=> {
+        const errors = validationResult(req)
+        
+        if (!errors.isEmpty()) {
+            const errMsg = errors.array().map( error => error.msg).join(', ')
+            logger.error(errors.array().map( error => error.msg));
+
+            req.flash('error', errMsg);
+            req.flash('email', req.body.email || '');
+            return res.redirect('/api/admins/forgotten-password');
+        }
+        return next();
+    }
 ]
 
 const resetPassValidate = 
@@ -41,4 +60,4 @@ const resetPassValidate =
     }
 ]
 
-export { resetPassValidate, loginValAdmin };
+export { resetPassValidate, loginValAdmin, validateAdminEmail };

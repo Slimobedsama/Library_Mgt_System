@@ -7,7 +7,7 @@ class OtpDao {
 
     async createOtp(email) {
         const otp = Math.floor(Math.random() * 900000) + 100000;
-        return await this.Otp.create(email, otp);
+        return await this.Otp.create({ email, otp });
     }
 
     async deleteExistingOtp(email) {

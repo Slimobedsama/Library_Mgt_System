@@ -3,6 +3,7 @@ import ApiErrors from '../../../errors/ApiErrors.js';
 import bcrypt from 'bcrypt';
 import { adminToken, adminResetToken } from "../../../utils/genToken.js";
 import emailSender from '../../../utils/email.js';
+import { createOtpFactory } from '../../one_time_password/factory/otp.js';
 
 export const loginFactory = async(body)=> {
     const { email, password } = body;
@@ -24,29 +25,28 @@ export const loginFactory = async(body)=> {
 }
 
 export const forgotPasswordFactory = async(body)=> {
-    const { email } = body;
-    
-    if(email === '') {
-        throw ApiErrors.badRequest('Email is required');
-    }
-
-    const findEmail = await AdminDao.getEmail(email);
+    const findEmail = await AdminDao.getEmail(body.email);
 
     if(!findEmail) {
-        throw ApiErrors.notFound('This email is not found');
+        throw ApiErrors.notFound('This email is does not exist');
     }
 
-    const adminId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
-    // GENERATE TOKEN
-    const resetToken = adminResetToken(findEmail._id);
-     // SEND EMAIL WITH TOKEN
-    await emailSender({
-        from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
-        to: `${ findEmail.email }`,
-        subject: 'Password Reset Link',
-        html: `<h2>Please Click on the Link For Password Reset. You 10 minutes before it becomes invalid.<br><a href="http://localhost:9000/api/admins/reset-password/${adminId}">${resetToken}</a></h2>`
-    });
-    return { adminId, resetToken };
+    const { email } = findEmail;
+    const otp = await createOtpFactory(email);
+    console.log({otp})
+
+    // const adminId = findEmail._id; // RETRIEVES THE ID FROM SAVE EMAIL
+    // // GENERATE TOKEN
+    // const resetToken = adminResetToken(findEmail._id);
+    //  // SEND EMAIL WITH TOKEN
+    // await emailSender({
+    //     from: `Library Support Team <${process.env.SENDER_EMAIL}>`,
+    //     to: `${ findEmail.email }`,
+    //     subject: 'Password Reset Link',
+    //     html: `<h2>Please Click on the Link For Password Reset. You 10 minutes before it becomes invalid.<br><a href="http://localhost:9000/api/admins/reset-password/${adminId}">${resetToken}</a></h2>`
+    // });
+
+    return { message: 'Email sent' };
 }
 
 export const resetPassFactory = async function(body, params, cookies) {

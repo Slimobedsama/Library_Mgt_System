@@ -22,9 +22,18 @@ export const accessAdmin = tryCatch(async(req, res, next)=> {
 
 // ADMIN FORGOTTEN PASSWORD
 export const adminLostPass = tryCatch(async(req, res)=> {
-    const { adminId, resetToken } = await forgotPasswordFactory(req.body);
-    setSignedCookie(res, 'reset', resetToken, { maxAge: RESET });
-    return res.status(200).json({ message: 'Check your mail for reset link', data: adminId });
+    try {
+        const { message } = await forgotPasswordFactory(req.body);
+        
+        req.flash('success', message)
+        // return res.redirect('/api/admins/forgotten-password');
+        
+    } catch (error) {
+        console.error({error})
+        req.flash('error', error.message)
+        req.flash('email', req.body.email || '')
+        return res.redirect('/api/admins/forgotten-password');
+    }
 });
 
 // ADMIN RESET PASSWORD
@@ -56,7 +65,13 @@ export const dashBoardAdmin = (req, res)=> {
 }
 
 export const lostPassword = (req, res)=> {
-    res.render('./admin/forgot', { title: 'Forgotten Password' });
+    res.render('./admin/forgot', 
+        { 
+            title: 'Forgotten Password',
+            email: req.flash('email' || '')
+
+         }
+    );
 }
 
 export const resetPassword = (req, res)=> {

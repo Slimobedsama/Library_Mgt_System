@@ -1,3 +1,6 @@
+#body {
+    background: none;
+}
 .mini-nav {
     display: flex;
     justify-content: space-between;
@@ -5,8 +8,8 @@
     position: sticky;
     top: 0;
 }
-.mini-nav h3, .mini-nav ul, .mini-nav a, .connect h3, .connect a, footer {
-    color: #fff;
+.mini-nav h3, .mini-nav ul, .mini-nav a, .connect h3, .connect a, .footer {
+    color: #333;
 }
 .connect a {
     padding: 7px;

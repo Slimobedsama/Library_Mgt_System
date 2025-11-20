@@ -1,16 +1,17 @@
 import jwt from 'jsonwebtoken';
-import Admin from '../models/admin.js';
+import Admin from '../services/admin/model/admin.js';
 import logger from '../logger.js';
 import ApiErrors from '../errors/ApiErrors.js';
 
 // ADMIN AUTH
 const adminAuth = (req, res, next)=> {
-    const token = req.cookies.admin;
+    const token = req.signedCookies.admin || req.headers.authorization; //CROSS PLATFORM(MOBILE & WEB)
     if(token) {
         jwt.verify(token, process.env.JWT_ADM, (err, decoded)=> {
             if(err) {
                 res.redirect('/api/admins/login')
             } else {
+                req.adminId = decoded.id 
                 logger.info(`{id: ${decoded.id}, iat: ${decoded.iat}, exp: ${decoded.exp}}`);
                 next();
             }

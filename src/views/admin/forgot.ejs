@@ -7,12 +7,11 @@
                 <h2>Forgot Password?</h2>
             </div>
             <div class="input-style">
-                <input type="email" name="email" id="email" placeholder="Email" required>
-                <div class="msgs email-msg"></div>
+                <input type="email" name="email" id="email" placeholder="Email" value="<%= email %>" required>
             </div>
             <div class="btn">
                 <div>
-                    <input type="submit" value="Reset Link">
+                    <input type="submit" value="Continue">
                 </div>
                 <div>
                     <a href="/api/admins/login"><input type="button" value="Return to login"></a>
@@ -22,6 +21,11 @@
     </div>
     
     <%- include('../partials/foot') %>
-    <script src="/javascript/admin/forgot.js"></script>
+    <script id="toast-data" type="application/json">
+        <%- JSON.stringify({
+            error: error || []
+        }) %>
+    </script>
+    <script src="/javascript/toast.js"></script>
 </body>
 </html>

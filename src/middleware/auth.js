@@ -11,6 +11,7 @@ const adminAuth = (req, res, next)=> {
             if(err) {
                 res.redirect('/api/admins/login')
             } else {
+                req.adminId = decoded.id 
                 logger.info(`{id: ${decoded.id}, iat: ${decoded.iat}, exp: ${decoded.exp}}`);
                 next();
             }

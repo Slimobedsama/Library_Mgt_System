@@ -9,10 +9,10 @@ class AdminDao {
         return await Admin.findOne({email});
     }
 
-    static async update(query, data) {
+    static async update(id, data) {
         return await Admin.findByIdAndUpdate(
-            query,
-            data,
+            id,
+            { $set: data },
             { new: true }
         );
     }

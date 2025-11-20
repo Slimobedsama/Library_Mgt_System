@@ -14,8 +14,8 @@ class OtpDao {
         return await this.Otp.deleteMany({ email });
     }
 
-    async isValidOtp(email, otp) {
-        return await this.Otp.findOne({ email, otp });
+    async isValidOtp(otp) {
+        return await this.Otp.findOne({ otp });
     }
 }
 

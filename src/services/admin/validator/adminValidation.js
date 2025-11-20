@@ -1,7 +1,7 @@
 import { body, validationResult } from 'express-validator';
 import logger from '../../../logger.js';
 
-const loginValAdmin = 
+const validateAdminLogin = 
 [
     body('email').isEmail().withMessage('Email is required'),
     body('password')
@@ -36,28 +36,48 @@ const validateAdminEmail =
         const errors = validationResult(req)
         
         if (!errors.isEmpty()) {
-            const errMsg = errors.array().map( error => error.msg).join(', ')
+            // const errMsg = errors.array().map( error => error.msg).join(', ')
             logger.error(errors.array().map( error => error.msg));
 
-            req.flash('error', errMsg);
+            req.flash('error', 'Enter a valid email');
             req.flash('email', req.body.email || '');
             return res.redirect('/api/admins/forgotten-password');
         }
         return next();
     }
-]
+];
 
-const resetPassValidate = 
+const validateAdminOtp = 
 [
-    body('password').isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be minimum of 6 characters, 1 uppercase, 1 lowercase & 1 number'),
+    body('otp').notEmpty().isInt(),
     (req, res, next)=> {
-        const errors = validationResult(req);
+        const errors = validationResult(req)
+        
         if (!errors.isEmpty()) {
-            logger.error(errors.array().map( error => error.msg))
-            return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+            logger.error(errors.array().map( error => error.msg));
+
+            req.flash('error', 'Enter a value');
+            return res.redirect('/api/admins/forgotten-password-otp');
         }
         return next();
     }
 ]
 
-export { resetPassValidate, loginValAdmin, validateAdminEmail };
+const validatePasswordReset = 
+[
+    body('password').isAlphanumeric().withMessage('Must be alphanumeric').
+    isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be alphanumeric with minimum of six(6) characters'),
+    (req, res, next)=> {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const errMsg = errors.array().map( error => error.msg).join(', ')
+            logger.error(errors.array().map( error => error.msg))
+            req.flash('error', errMsg)
+            return res.redirect('/api/admins/reset-password')
+            // return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+        }
+        return next();
+    }
+]
+
+export { validatePasswordReset, validateAdminLogin, validateAdminEmail, validateAdminOtp };

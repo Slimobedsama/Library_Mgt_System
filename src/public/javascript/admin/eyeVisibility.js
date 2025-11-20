@@ -1,9 +1,9 @@
-let password = document.querySelector('#password');
+// let password = document.querySelector('#password');
 let toggleEye = document.querySelector('.fa-eye');
-const form = document.querySelector('#form');
-let email = document.querySelector('#email');
-let emailMsg = document.querySelector('.email-msg');
-let passwordMsg = document.querySelector('.password-msg');
+// const form = document.querySelector('#form');
+// let email = document.querySelector('#email');
+// let emailMsg = document.querySelector('.email-msg');
+// let passwordMsg = document.querySelector('.password-msg');
 
 function passwordVisiblity() {
     const passwordInput = document.querySelector('#password');

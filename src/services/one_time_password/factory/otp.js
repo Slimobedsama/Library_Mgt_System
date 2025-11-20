@@ -1,3 +1,4 @@
+import ApiErrors from "../../../errors/ApiErrors.js";
 import OtpDao from "../dao/otp.js";
 
 async function createOtpFactory(email) {
@@ -9,4 +10,14 @@ async function createOtpFactory(email) {
     return { generateOtp };
 }
 
-export { createOtpFactory };
+async function verifyOtpFactory(otp) {
+    const verifyOtp = await OtpDao.isValidOtp(otp);
+
+    if(!verifyOtp) {
+        throw ApiErrors.notFound('Invalid otp');
+    }
+
+    return { verifyOtp };
+}
+
+export { createOtpFactory, verifyOtpFactory };

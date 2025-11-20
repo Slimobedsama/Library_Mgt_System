@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<%- include('../partials/head') %>
+<body>
+  <div id="form-content">
+    <form action="/api/admins/forgotten-password-otp" method="post" id="form" novalidate>
+      <div class="msg">
+        <h2>Otp Verification Code</h2>
+        <p class="otp-info">A 6-digit code has been sent to your email</p>
+      </div>
+
+      <div class="otp-container">
+        <input type="text" name="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" required>
+        <input type="text" name="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" required>
+        <input type="text" name="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" required>
+        <input type="text" name="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" required>
+        <input type="text" name="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" required>
+        <input type="text" name="otp-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" required>
+      </div>
+
+      <div class="btn">
+        <div>
+          <input type="submit" value="Verify Code">
+        </div>
+        <div>
+          <a href="/api/admins/resend-otp"><input type="button" value="Resend Code"></a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <%- include('../partials/foot') %>
+  <script id="toast-data" type="application/json">
+        <%- JSON.stringify({
+            error: error || [],
+            success: success || []
+        }) %>
+  </script>
+  <script src="/javascript/admin/otp.js"></script>
+  <script src="/javascript/toast.js"></script>
+</body>
+</html>

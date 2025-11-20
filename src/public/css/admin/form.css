@@ -97,19 +97,57 @@ input {
   background-color: #ddd;
 }
 
-.error-msg {
-    font-size: 1.01em;
-    font-weight: 500;
-    text-align: justify;
+/* OTP FORM */
+.otp-info {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 14px;
+}
+
+.otp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  margin: 20px 0;
+}
+
+.otp-input {
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  font-size: 20px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  outline: none;
+  background-color: #fff;
+}
+
+.otp-input:focus {
+  border-color: #333;
+  box-shadow: 0 0 3px #333;
 }
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
   #form {
-    padding: 30px 20px;
+    padding: 30px 13px;
   }
 
   .msg h2 {
     font-size: 1.2rem;
+  }
+
+  .otp-container {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .otp-input {
+    width: 35px;
+    height: 40px;
   }
 }

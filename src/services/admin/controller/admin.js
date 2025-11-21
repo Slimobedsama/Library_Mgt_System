@@ -7,12 +7,14 @@ import setSignedCookie from '../../../utils/cookies.js';
 // LOGIN
 export const adminLoginController = tryCatch(async(req, res, next)=> {
     try {
-        const { token, message } = await loginFactory(req.body);
+        const { token, message, firstName } = await loginFactory(req.body);
+        
         setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
+        setSignedCookie(res, 'firstName', firstName, { maxAge: EXPIRES });
         
         req.flash('success', message);
         return res.redirect('dash-board');
-        
+
     } catch (error) {
         req.flash('error', error.message)
         req.flash('email', req.body.email || '')
@@ -96,7 +98,9 @@ export const loginView = (req, res)=> {
 }
 
 export const dashboardView = (req, res)=> {
-    res.render('./admin/dashboard', { title: 'Admin Dash Board' });
+    const firstName = req.signedCookies.firstName || '';
+
+    res.render('./admin/dashboard', { title: 'Admin Dash Board', firstName });
 }
 
 export const forgottenPasswordView = (req, res)=> {

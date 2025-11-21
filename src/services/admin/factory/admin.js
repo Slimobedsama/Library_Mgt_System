@@ -21,7 +21,7 @@ export const loginFactory = async(body)=> {
         token = adminToken(admin._id);
     }
     
-    return { token, message: 'Login successful' };
+    return { token, message: 'Login successful', firstName: admin.firstName };
 }
 
 export const forgotPasswordFactory = async(body)=> {

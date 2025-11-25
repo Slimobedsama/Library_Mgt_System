@@ -3,20 +3,22 @@
 <body id="body">
     <header>
         <h2>Admin Dashboard</h2>
-        <% if(firstName) { %>
-            <div>Hello <%= firstName %> </div>
-        <% } %>
+        <h5>Hello! <%= firstName %> </h5>
     </header>
     <main>
         <nav class="side-bar">
             <ul>
-                <li>Dashboard</li>
-                <li>Books</li>
-                <li>Users</li>
-                <li>Logout</li>
+                <li><a href="#"><i class="fa fa-user"></i>Users</a></li>
+                <li><a href="#"><i class="fa fa-book"></i>Books</a></li>
+                <li><a href="/api/admins/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
             </ul>
         </nav>
-        <section></section>
+        <section>
+            <div class="lib-headers">
+                <h3>Librarians</h3>
+                <div><a href="#">Add Librarian</a></div>
+            </div>
+        </section>
     </main>
         
     <!-- <%- include('../partials/foot') %> -->

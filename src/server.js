@@ -7,5 +7,5 @@ const PORT = process.env.PORT  || 8000;
 
 const server = createServer(app);
 
-db().then((result)=> server.listen(PORT, ()=> logger.info(`Server listening on port ${ PORT }`)))
+db().then((result)=> server.listen(PORT, '0.0.0.0', ()=> logger.info(`Server listening on port ${ PORT }`))) 
 .catch((err)=> logger.error(err))

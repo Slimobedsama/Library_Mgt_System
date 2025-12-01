@@ -2,6 +2,7 @@ import { EXPIRES, RESET } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
 import { loginFactory, forgotPasswordFactory, resendOtpFactory, verifyAdminOtpFactory, resetPassFactory } from '../factory/admin.js';
 import setSignedCookie from '../../../utils/cookies.js';
+import { getAllLibrarian } from '../../librarian/factory/librarian.js';
 
 
 // LOGIN
@@ -97,10 +98,17 @@ export const loginView = (req, res)=> {
     );
 }
 
-export const dashboardView = (req, res)=> {
+export const dashboardView = async(req, res)=> {
     const firstName = req.signedCookies.firstName || '';
-
-    res.render('./admin/dashboard', { title: 'Admin Dash Board', firstName });
+    const librarians = await getAllLibrarian();
+    
+    res.render('./admin/dashboard', 
+        { 
+            title: 'Admin Dash Board',
+            firstName,
+            librarians 
+        }
+    );
 }
 
 export const forgottenPasswordView = (req, res)=> {

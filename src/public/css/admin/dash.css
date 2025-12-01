@@ -1,6 +1,9 @@
+#body {
+     min-height: 100vh;
+     background: none;
+}
 #body, a {
-    background: none;
-    color: #666;
+    color: #555;
 }
 a {
     text-decoration: none;
@@ -14,7 +17,7 @@ header {
     border-bottom: 1px solid #eee;
 }
 header h5 {
-    font-size: 1.1em;
+    font-size: 1.02em;
     font-weight: 500;
 }
 main {
@@ -27,8 +30,8 @@ main nav {
     width: 15%;
     height: 100vh;
     padding: 10px 20px;
-    border-right: 3px solid #eee;
-    /* background-color: #eee; */
+    /* border-right: 1px solid #eee; */
+    background-color: #eee;
 }
 main nav ul {
     display: flex;
@@ -38,7 +41,7 @@ main nav ul {
 main nav li {
     list-style-type: none;
     font-weight: 500;
-    margin: 10px 0;
+    margin: 25px auto;
     width: 100%;
 }
 main nav li,
@@ -49,19 +52,16 @@ i {
     margin-right: 10px;
 }
 main nav li:hover {
-    background-color: #555;
+    background-color: #4c0ff5;
     padding: 8px 15px;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 main nav li:hover a,
 main nav li:hover i {
     color: #fff;
 }
 main section {
-    /* display: flex; */
-    /* justify-content: space-around; */
     width: 85%;
-    /* margin: 25px 0; */
 }
 .lib-headers {
     display: flex;
@@ -70,9 +70,47 @@ main section {
     margin: 25px 0;
 }
 .lib-headers a {
-    background-color: #555;
+    background-color: #4c0ff5;
     color: #fff;
+    border-radius: 8px;
+}
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.dashboard-table {
+    width: 95%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.dashboard-table th {
+    background: #f4f4f4;
+    font-weight: 600;
+}
+
+.delete-btn {
+    padding: 6px 12px;
+    background-color: #4c0ff5;
+    color: #fff;
+    border: none;
     border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #3e04c5;
 }
 
 footer {
@@ -83,12 +121,55 @@ footer {
 /* MEDIA QUERY FOR MOBILE/SMALL SCREE */
 @media (max-width: 480px) {
     header {
-        padding: 20px 25px;
+        padding: 20px 15px;
     }
     header h2 {
-        font-size: 1.1em;
+        font-size: 1.2em;
     }
     header h5 {
-        font-size: 0.93em;
+        font-size: 0.90em;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    main nav {
+        width: 100%;
+        height: auto;
+        order: 2;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        margin-top: auto; 
+        padding: 15px 10px;
+    }
+    main nav ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    main nav li {
+        padding: 8px 10px;
+        margin: 0;
+    }
+    i {
+        margin: 6px;
+    }
+    main section {
+        width: 100%;
+    }
+    .dashboard-table {
+        font-size: 0.85rem;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+        padding: 8px 10px;
+    }
+
+    .delete-btn {
+        padding: 5px 10px;
+        font-size: 0.8rem;
     }
 }

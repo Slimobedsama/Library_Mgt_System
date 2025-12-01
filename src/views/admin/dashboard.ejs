@@ -18,6 +18,37 @@
                 <h3>Librarians</h3>
                 <div><a href="#">Add Librarian</a></div>
             </div>
+            <div class="table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Mobile</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% librarians.forEach(lib => { %>
+                            <tr>
+                                <td><%= lib.firstName %></td>
+                                <td><%= lib.lastName %></td>
+                                <td><%= lib.phone %></td>
+                                <td>
+                                    <form 
+                                        action="/api/librarians/<%= lib._id %>" 
+                                        method="POST"
+                                        onsubmit="return confirm('Delete this librarian?');"
+                                    >
+                                        <button class="delete-btn" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
         

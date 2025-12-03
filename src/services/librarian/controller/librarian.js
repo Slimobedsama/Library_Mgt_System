@@ -31,8 +31,16 @@ export const modifyLabrarian = tryCatch(async(req, res)=> {
 });
 
 export const removeLibrarian = tryCatch(async(req, res)=> {
-    const delLibrarian = await deleteLibrarian(req.params);
-    res.status(200).json({ message: 'Librarian deleted...', delLib: delLibrarian._id });
+    try {
+        const {message } = await deleteLibrarian(req.params);
+        // res.status(200).json({ message: 'Librarian deleted...', delLib: delLibrarian._id });
+        req.flash('success',message);
+        res.redirect('/api/admins/dash-board');
+        
+    } catch (error) {
+        req.flash('error', error.message)
+         res.redirect('/api/admins/dash-board');
+    }
 });
 
 export const librarianLostPassword = tryCatch(async(req, res)=> {

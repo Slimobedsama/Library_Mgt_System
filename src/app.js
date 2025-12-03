@@ -17,6 +17,7 @@ import userRouter from './services/user/routes/user.js';
 import bookRouter from './services/book/routes/book.js';
 import orderRouter from './services/order/routes/order.js';
 import errorHandler from './middleware/errorHandler.js';
+import methodOverride from 'method-override';
 
 const morganFormat = ":method :url :status :response-time ms";
 const __filename = fileURLToPath(import.meta.url);
@@ -26,15 +27,10 @@ const __dirname = dirname(__filename);
 app.use(express.json());
 // ENCODED URL PARSER MIDDLEWARE
 app.use(express.urlencoded({extended: true}));
-// STATIC MIDDLEWARE
-app.use(express.static(join(__dirname, 'public')));
-// TEMPLATE ENGINE
-app.set('views', join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 // LIVE RELOAD MIDDLEWARE
 if (process.env.NODE_ENV !== 'production') {
   const liveReloadServer = livereload.createServer();
-
+  
   // Tell livereload which directory to watchout for
   liveReloadServer.watch([
     join(__dirname, 'views'),
@@ -49,6 +45,12 @@ if (process.env.NODE_ENV !== 'production') {
   
   app.use(connectLiveReload());
 }
+// STATIC MIDDLEWARE
+app.use(express.static(join(__dirname, 'public')));
+// TEMPLATE ENGINE
+app.set('views', join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
 // COOKIE MIDDLEWARE
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(

@@ -61,13 +61,13 @@ export const updateLibrarian = async function(body, params) {
 
 export const deleteLibrarian = async function(params) {
     const { id } = params;
-    const delLibrarian = await Librarian.findByIdAndDelete(id);
+    const delLibrarian = await LibrarianDao.removelibrarian(id);
 
     if(!delLibrarian) {
         throw ApiErrors.notFound(`Librarian with id ${id} not found.`)
     }
     
-    return delLibrarian;
+    return { message:'Librarian deleted',  librarian: delLibrarian._id };
 }
 
 export const librarianForgotPasswd = async function(body) {

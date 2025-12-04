@@ -28,9 +28,14 @@ export const getSingleLibrarian = async function(params) {
 
 export const signupLibrarian = async function(body) {
     const createLibrarian = await Librarian.create(body);
+
+    if(!createLibrarian) {
+        throw ApiErrors.internalServer('Something went wrong');
+    }
+
     const token = librarianToken(createLibrarian._id);
 
-    return { createLibrarian, token };
+    return { message: 'Successfully added librarian', token };
 }
 
 export const signInLibrarian = async function(body) {

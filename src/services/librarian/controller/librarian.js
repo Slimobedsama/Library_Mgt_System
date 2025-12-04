@@ -1,4 +1,5 @@
 import { deleteLibrarian, getAllLibrarian, getSingleLibrarian, signInLibrarian, signupLibrarian, updateLibrarian, librarianForgotPasswd, librarianPassReset } from '../factory/librarian.js';
+import setSignedCookie from '../../../utils/cookies.js';
 import { EXPIRES, RESET } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
 
@@ -13,9 +14,17 @@ export const getOneLibrarian = tryCatch(async(req, res)=> {
 });
 
 export const reqisterLibrarian = tryCatch(async(req, res)=> {
-    const { createLibrarian, token } = await signupLibrarian(req.body);
-    res.cookie('lib', token, {httpOnly: true, maxAge: EXPIRES});
-    return res.status(201).json({message: 'Successful Creation', Librarian: createLibrarian._id});
+    try {
+        const { message, token } = await signupLibrarian(req.body);
+        setSignedCookie(res, 'lib', token, { maxAge: EXPIRES });
+        // return res.status(201).json({message: 'Successful Creation', Librarian: createLibrarian._id});
+        req.flash('success', message);
+        res.redirect('/api/admins/dash-board');
+        
+    } catch (error) {
+        req.flash('error', error.message);
+        return res.redirect('/api/admins/dash-board');
+    }
 });
 
 
@@ -32,7 +41,7 @@ export const modifyLabrarian = tryCatch(async(req, res)=> {
 
 export const removeLibrarian = tryCatch(async(req, res)=> {
     try {
-        const {message } = await deleteLibrarian(req.params);
+        const { message } = await deleteLibrarian(req.params);
         // res.status(200).json({ message: 'Librarian deleted...', delLib: delLibrarian._id });
         req.flash('success',message);
         res.redirect('/api/admins/dash-board');

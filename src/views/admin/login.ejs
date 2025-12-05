@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%- include('../partials/head') %>
-<body>
+<body id="form-body">
     <div id="form-content">
         <form action="/api/admins/login" method="post" id="form" class="login" novalidate>
             <div class="msg">
@@ -13,9 +13,6 @@
                 <input type="password" name="password" id="password" placeholder="Password" required>
                 <i class="fa fa-eye"></i>
             </div>
-            <!-- <% if (error && error.length > 0) { %>
-                <div class="error-msg"><%= error %></div>
-            <% } %> -->
             <div class="btn">
                 <div>
                     <input type="submit" value="Login">

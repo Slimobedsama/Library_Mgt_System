@@ -6,7 +6,7 @@ const validateAdminLogin =
     body('email').isEmail().withMessage('Email is required'),
     body('password')
     .isAlphanumeric().withMessage('Must be alphanumeric')
-    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Must be alphanumeric with minimum of 6 characters'),
+    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must contain alphanumeric with minimum of 6 characters'),
     (req, res, next)=> {
         const errors = validationResult(req);
         

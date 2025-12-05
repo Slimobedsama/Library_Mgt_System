@@ -1,21 +1,23 @@
-import { EXPIRES, RESET } from '../../../utils/maxAge.js';
+import { EXPIRES } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
 import { loginFactory, forgotPasswordFactory, resendOtpFactory, verifyAdminOtpFactory, resetPassFactory } from '../factory/admin.js';
 import setSignedCookie from '../../../utils/cookies.js';
+import { getAllLibrarian } from '../../librarian/factory/librarian.js';
 
 
 // LOGIN
 export const adminLoginController = tryCatch(async(req, res, next)=> {
     try {
-        const { token, message } = await loginFactory(req.body);
+        const { token, message, firstName } = await loginFactory(req.body);
+        
         setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
+        setSignedCookie(res, 'firstName', firstName, { maxAge: EXPIRES });
         
         req.flash('success', message);
         return res.redirect('dash-board');
-        
+
     } catch (error) {
         req.flash('error', error.message)
-        req.flash('email', req.body.email || '')
         return res.redirect('/api/admins/login');
     }
 });
@@ -95,8 +97,21 @@ export const loginView = (req, res)=> {
     );
 }
 
-export const dashboardView = (req, res)=> {
-    res.render('./admin/dashboard', { title: 'Admin Dash Board' });
+export const dashboardView = async(req, res)=> {
+    const name = req.signedCookies.firstName || '';
+    const librarians = await getAllLibrarian();
+    
+    res.render('./admin/dashboard', 
+        { 
+            title: 'Admin Dash Board',
+            name,
+            librarians,
+            lastName: req.flash('lastName') || '',
+            firstName: req.flash('firstName') || '',
+            email: req.flash('email') || '' ,
+            phone: req.flash('phone') || '',
+        }
+    );
 }
 
 export const forgottenPasswordView = (req, res)=> {

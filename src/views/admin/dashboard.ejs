@@ -1,36 +1,85 @@
 <!DOCTYPE html>
 <%- include('../partials/head') %>
 <body id="body">
-    <div class="mini-nav">
-        <% if(admin) { %>
-            <h3>Welcome <%= admin.firstName %></h3>
-        <% } %>
-        <ul>
-            <li class="link"><a href="#">Librarian</a></li>
-            <li class="link"><a href="/api/admins/logout">Logout</a></li>
-        </ul>
-        </div>
-        <div class="images">
-            <div class="icons">
-                <div id="person">
-                    <div class="connect"><h3>Librarian</h3></div>
-                    <img src="../../images/person_icon.png" alt="person">
-                    <div class="connect"><a href="#">Signup</a></div>
-                </div>
-                <div id="book">
-                    <div class="connect"><h3>Books</h3></div>
-                    <img src="../../images/Book_stack.jpg" alt="book stack">
-                    <div class="connect"><a href="#">Click Here</a></div>
+    <header>
+        <h2>Admin Dashboard</h2>
+        <h5>Hello! <%= name %> </h5>
+    </header>
+    <main>
+        <nav class="side-bar">
+            <ul>
+                <li><a href="#"><i class="fa fa-user"></i>Users</a></li>
+                <li><a href="#"><i class="fa fa-book"></i>Books</a></li>
+                <li><a href="/api/admins/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
+            </ul>
+        </nav>
+        <section>
+            <div class="lib-headers">
+                <h3>Librarians</h3>
+                <div><button id="open-modal" class="add-librarian">Add Librarian</button></div>
+            </div>
+            <div class="table-wrapper">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% librarians.forEach(lib => { %>
+                            <tr>
+                                <td><%= lib.firstName %></td>
+                                <td><%= lib.lastName %></td>
+                                <td><%= lib.phone %></td>
+                                <td><%= lib.email %></td>
+                                <td>
+                                    <form 
+                                        action="/api/librarians/<%= lib._id %>?_method=DELETE"" 
+                                        method="POST">
+                                        <button class="delete-btn" type="submit">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div id="add-librarian" class="modal-overlay hidden">
+                <div class="modal-box">
+                    <h3>Add Librarian</h3>
+                    
+                    <form action="/api/librarians/signup" method="post" class="modal-form">
+                        <input type="text" name="lastName" placeholder="Last Name" value="<%= lastName %>">
+                        <input type="text" name="firstName" placeholder="First Name" value="<%= firstName %>">
+                        <input type="email" name="email" placeholder="Email" value="<%= email %>" >
+                        <input type="tel" name="phone" placeholder="Mobile Number" value="<%= phone %>">
+                        <input type="password" name="password" placeholder="Password">
+                        <div class="modal-actions">
+                            <button type="submit" class="modal-submit">Create</button>
+                            <!-- Button auto submits if type button is not set explicity to button -->
+                            <button type="button" id="close-modal" class="close-modal">Cancel</button> 
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
+        </section>
+    </main>
         
-        <%- include('../partials/foot') %>
-        <script id="toast-data" type="application/json">
-        <%- JSON.stringify({
-            success: success || []
-        }) %>
+    <!-- <%- include('../partials/foot') %> -->
+    <script id="toast-data" type="application/json">
+    <%- JSON.stringify({
+        success: success || [],
+        error: error || []
+    }) %>
     </script>
+    <script src="/javascript/admin/modal.js"></script>
     <script src="/javascript/toast.js"></script>
 </body>
 </html>

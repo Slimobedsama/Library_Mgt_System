@@ -3,7 +3,7 @@ import LibrarianDao from '../dao/librarianDao.js';
 import logger from '../../../logger.js';
 
 // LIBRARIAN VALIDATION
-export const librarianSingupVal = 
+export const createLibrarianValidation = 
 [
     body('lastName').trim().notEmpty().isAlpha().withMessage('Enter last name'),
     body('firstName').trim().notEmpty().isAlpha().withMessage('Enter first name'),
@@ -13,20 +13,27 @@ export const librarianSingupVal =
     }),
     body('phone').isMobilePhone('en-NG').withMessage('Enter a valid nigerian mobile number'),
     body('password').notEmpty().withMessage('Password is required')
-    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be minimum of 6 Characters, 1 uppercase, 1 lowercase & 1 number'),
+    .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must contain alphanumeric with minimum of 6 characters'),
     (req, res, next)=> {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            const errMsg = errors.array().map( error => error.msg).join(', ')
             logger.error(errors.array().map( error => error.msg))
-            return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+            // return res.status(400).json({ errors: errors.array().map( error => error.msg) });
+            req.flash('error', errMsg);
+            req.flash('lastName', req.body.lastName || '');
+            req.flash('firstName', req.body.firstName || '');
+            req.flash('email', req.body.email || '');
+            req.flash('phone', req.body.phone || '');
+            return res.redirect('/api/admins/dash-board')
         }
         return next();
     }
 ];
 
-export const librarianLoginVal = 
+export const librarianLoginValidation = 
 [
-    body('email').notEmpty().withMessage('Email is required'),
+    body('email').notEmpty().isEmail().withMessage('Email is required'),
     body('password')
     .isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must be minimum of 6 characters, 1 uppercase, 1 lowercase & 1 number')
     .notEmpty().withMessage('Password is required'),
@@ -40,7 +47,7 @@ export const librarianLoginVal =
     }
 ]
 
-export const librarianUpdateVal = 
+export const librarianUpdateValidation = 
 [
     body('lastName').trim().notEmpty().isAlpha().withMessage('Enter last name'),
     body('firstName').trim().notEmpty().isAlpha().withMessage('Enter firstnName'),

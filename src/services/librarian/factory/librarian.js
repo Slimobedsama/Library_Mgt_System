@@ -28,9 +28,14 @@ export const getSingleLibrarian = async function(params) {
 
 export const signupLibrarian = async function(body) {
     const createLibrarian = await Librarian.create(body);
+
+    if(!createLibrarian) {
+        throw ApiErrors.internalServer('Something went wrong');
+    }
+
     const token = librarianToken(createLibrarian._id);
 
-    return { createLibrarian, token };
+    return { message: 'Successfully added librarian', token };
 }
 
 export const signInLibrarian = async function(body) {
@@ -61,13 +66,13 @@ export const updateLibrarian = async function(body, params) {
 
 export const deleteLibrarian = async function(params) {
     const { id } = params;
-    const delLibrarian = await Librarian.findByIdAndDelete(id);
+    const delLibrarian = await LibrarianDao.removelibrarian(id);
 
     if(!delLibrarian) {
         throw ApiErrors.notFound(`Librarian with id ${id} not found.`)
     }
     
-    return delLibrarian;
+    return { message:'Librarian deleted',  librarian: delLibrarian._id };
 }
 
 export const librarianForgotPasswd = async function(body) {

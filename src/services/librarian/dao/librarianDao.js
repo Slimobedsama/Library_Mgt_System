@@ -10,13 +10,17 @@ class LibrarianDao {
 
     static async allLibrian() {
         return await Librarian.find()
-            .sort({ lastName: 'asc' })
-            .select(['lastName', 'firstName', 'phone']);
+            .sort({ createdAt: -1 })
+            .select(['lastName', 'firstName', 'phone', 'email']);
     }
 
     static async getOneLibrarian(id) {
         return await Librarian.findById(id)
             .select(['lastName', 'firstName', 'phone']);
+    }
+
+    static async removelibrarian(id) {
+        return await Librarian.findByIdAndDelete(id);
     }
 
 }

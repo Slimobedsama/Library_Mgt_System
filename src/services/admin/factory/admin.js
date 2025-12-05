@@ -1,7 +1,7 @@
 import AdminDao from "../dao/admin.js";
 import ApiErrors from '../../../errors/ApiErrors.js';
 import bcrypt from 'bcrypt';
-import { adminToken } from "../../../utils/genToken.js";
+import { adminAccessToken } from "../../../utils/genToken.js";
 import emailSender from '../../../utils/email.js';
 import { createOtpFactory, verifyOtpFactory } from '../../one_time_password/factory/otp.js';
 
@@ -18,7 +18,7 @@ export const loginFactory = async(body)=> {
         if(!checkPassword) {
             throw ApiErrors.badRequest('Incorrect username or password');
         }
-        token = adminToken(admin._id);
+        token = adminAccessToken(admin._id);
     }
     
     return { token, message: 'Login successful', firstName: admin.firstName };
@@ -74,7 +74,7 @@ export const verifyAdminOtpFactory = async(body)=> {
         throw ApiErrors.notFound('User not found')
     }
 
-    const token = adminToken(admin._id);
+    const token = adminAccessToken(admin._id);
     
     return { token, message: 'Valid otp' }
 }

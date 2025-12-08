@@ -3,7 +3,9 @@
 <body id="body">
     <header>
         <h2>Admin Dashboard</h2>
-        <h5>Hello! <%= name %> </h5>
+        <% if(name) { %>
+            <h5>Hello! <%= name %> </h5>
+       <% } %>
     </header>
     <main>
         <nav class="side-bar">

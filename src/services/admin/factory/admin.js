@@ -1,14 +1,16 @@
 import AdminDao from "../dao/admin.js";
 import ApiErrors from '../../../errors/ApiErrors.js';
 import bcrypt from 'bcrypt';
-import { adminAccessToken } from "../../../utils/genToken.js";
+import { adminAccessToken, adminRefreshToken } from "../../../utils/genToken.js";
 import emailSender from '../../../utils/email.js';
 import { createOtpFactory, verifyOtpFactory } from '../../one_time_password/factory/otp.js';
+import RefreshToken from "../model/refresh.js";
 
 export const loginFactory = async(body)=> {
     const { email, password } = body;
     const admin = await AdminDao.getEmail(email);
     let token;
+    let refreshToken;
 
     if(!admin) {
         throw ApiErrors.badRequest('Incorrect email or password');
@@ -19,9 +21,21 @@ export const loginFactory = async(body)=> {
             throw ApiErrors.badRequest('Incorrect username or password');
         }
         token = adminAccessToken(admin._id);
+        refreshToken = adminRefreshToken(admin._id);
     }
+
+    await RefreshToken.create({
+        userId: admin._id,
+        token: refreshToken,
+        expiresAt: new Date(Date.now() + 3 * 60 * 1000),
+    });
     
-    return { token, message: 'Login successful', firstName: admin.firstName };
+    return { 
+        token, 
+        refreshToken, 
+        message: 'Login successful', 
+        firstName: admin.firstName 
+    };
 }
 
 export const forgotPasswordFactory = async(body)=> {

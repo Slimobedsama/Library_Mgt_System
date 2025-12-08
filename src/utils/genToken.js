@@ -14,7 +14,7 @@ const adminAccessToken = (id)=> {
 }
 
 const adminRefreshToken = (id)=> {
-    return jwt.sign({ id }, process.env.ADM_REFRESH, { expiresIn: process.env.EXPIRES_IN });
+    return jwt.sign({ id }, process.env.ADM_REFRESH, { expiresIn: process.env.REFRESH_EXPIRES });
 }
 
 const libResetToken = (id)=> {

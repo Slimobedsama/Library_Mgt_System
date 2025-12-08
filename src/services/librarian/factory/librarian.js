@@ -1,7 +1,7 @@
 import ApiErrors from "../../../errors/ApiErrors.js";
 import bcrypt from 'bcrypt';
 import emailSender from "../../../utils/email.js";
-import { librarianToken, libResetToken } from "../../../utils/genToken.js";
+import { librarianAccessToken, libResetToken } from "../../../utils/genToken.js";
 import LibrarianDao from "../dao/librarianDao.js";
 import Librarian from "../model/librarian.js";
 
@@ -33,7 +33,7 @@ export const signupLibrarian = async function(body) {
         throw ApiErrors.internalServer('Something went wrong');
     }
 
-    const token = librarianToken(createLibrarian._id);
+    const token = librarianAccessToken(createLibrarian._id);
 
     return { message: 'Successfully added librarian', token };
 }
@@ -44,7 +44,7 @@ export const signInLibrarian = async function(body) {
     if(checkEmail) {
         const checkPassword = await bcrypt.compare(password, checkEmail.password);
         if(checkPassword) {
-            const token = librarianToken(checkEmail._id);    
+            const token = librarianAccessToken(checkEmail._id);    
             return { checkEmail, token };
         }
         throw ApiErrors.notFound('Incorrect password');

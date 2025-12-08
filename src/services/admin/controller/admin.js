@@ -1,22 +1,25 @@
-import { EXPIRES } from '../../../utils/maxAge.js';
+import { EXPIRES, REFRESH_EXPIRES } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
 import { loginFactory, forgotPasswordFactory, resendOtpFactory, verifyAdminOtpFactory, resetPassFactory } from '../factory/admin.js';
 import setSignedCookie from '../../../utils/cookies.js';
 import { getAllLibrarian } from '../../librarian/factory/librarian.js';
+import RefreshToken from '../model/refresh.js';
 
 
 // LOGIN
 export const adminLoginController = tryCatch(async(req, res, next)=> {
     try {
-        const { token, message, firstName } = await loginFactory(req.body);
+        const { token, refreshToken, message, firstName } = await loginFactory(req.body);
         
         setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
+        setSignedCookie(res, 'adminRefresh', refreshToken, { maxAge: REFRESH_EXPIRES });
         setSignedCookie(res, 'firstName', firstName, { maxAge: EXPIRES });
         
         req.flash('success', message);
         return res.redirect('dash-board');
 
     } catch (error) {
+        console.log({error})
         req.flash('error', error.message)
         return res.redirect('/api/admins/login');
     }
@@ -81,8 +84,17 @@ export const adminResetPasswordController = tryCatch(async(req, res)=> {
 });
 
 // LOGOUT
-export const adminLogoutContoller = (req, res)=> {
-    res.clearCookie('admin', '', { maxAge: 1 });
+export const adminLogoutContoller = async(req, res)=> {
+    const refreshToken = req.signedCookies.adminRefresh
+    
+    if(refreshToken) {
+        await RefreshToken.findOneAndDelete({ token: refreshToken });
+    }
+
+    res.clearCookie('admin');
+    res.clearCookie('adminRefresh');
+    res.clearCookie('firstName');
+
     res.redirect('/api/admins/login');
 }
 

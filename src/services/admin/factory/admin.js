@@ -27,7 +27,7 @@ export const loginFactory = async(body)=> {
     await RefreshToken.create({
         userId: admin._id,
         token: refreshToken,
-        expiresAt: new Date(Date.now() + 3 * 60 * 1000),
+        expiresAt: new Date(Date.now() + 30 * 60 * 1000),
     });
     
     return { 

@@ -28,14 +28,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 lastName.addEventListener('input', (e)=> {
     const value = e.target.value;
-    if(value.length > 0) {
-        e.target.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    }
+
+    e.target.value = value.split(' ').map(word => {
+        if(word.length > 0) {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word
+    })
+    .join(' ');
 });
 
 firstName.addEventListener('input', (e)=> {
     const value = e.target.value;
-    if(value.length > 0) {
-        e.target.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    }
+
+    e.target.value = value.split(' ').map(word => {
+        if(word.length > 0) {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word
+    })
+    .join(' ');
 });

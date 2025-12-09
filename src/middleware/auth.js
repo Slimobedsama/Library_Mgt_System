@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import Admin from '../services/admin/model/admin.js';
 import logger from '../logger.js';
 import ApiErrors from '../errors/ApiErrors.js';
-import RefreshToken from '../services/admin/model/refresh.js';
+import { refreshTokenFactory, getRefreshTokenFactory } from '../services/admin/factory/refresh.js';
 import { adminAccessToken, adminRefreshToken } from '../utils/genToken.js';
 import setSignedCookie from '../utils/cookies.js';
 import { EXPIRES, REFRESH_EXPIRES } from '../utils/maxAge.js';
@@ -30,11 +30,9 @@ const adminAuth = async(req, res, next)=> {
 
     try {
         const decoded = jwt.verify(refreshToken, process.env.ADM_REFRESH);
-        const getRefreshToken = await RefreshToken.findOne({
-            userId: decoded.id,
-            token: refreshToken,
-            blacklisted: false
-        });
+       
+        const id = decoded.id
+;       const getRefreshToken = await getRefreshTokenFactory(id, refreshToken);
 
         if(!getRefreshToken) {
             req.flash('error', 'Expired refresh token');
@@ -47,11 +45,13 @@ const adminAuth = async(req, res, next)=> {
         getRefreshToken.blacklisted = true;
         await getRefreshToken.save();
 
-        await RefreshToken.create({
+        const refreshData = {
             userId: decoded.id,
             token: newRefreshToken,
             expiresAt: new Date(Date.now() + 30 * 60 * 1000),
-        });
+        }
+
+        await refreshTokenFactory(refreshData);
 
         setSignedCookie(res, 'admin', newToken, { maxAge: EXPIRES });
         setSignedCookie(res, 'adminRefresh', newRefreshToken, { maxAge: REFRESH_EXPIRES });

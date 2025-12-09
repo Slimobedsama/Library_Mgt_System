@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { adminAccessToken, adminRefreshToken } from "../../../utils/genToken.js";
 import emailSender from '../../../utils/email.js';
 import { createOtpFactory, verifyOtpFactory } from '../../one_time_password/factory/otp.js';
-import RefreshToken from "../model/refresh.js";
+import { refreshTokenFactory } from './refresh.js';
 
 export const loginFactory = async(body)=> {
     const { email, password } = body;
@@ -24,11 +24,13 @@ export const loginFactory = async(body)=> {
         refreshToken = adminRefreshToken(admin._id);
     }
 
-    await RefreshToken.create({
+    const data = {
         userId: admin._id,
         token: refreshToken,
         expiresAt: new Date(Date.now() + 30 * 60 * 1000),
-    });
+    }
+
+    await refreshTokenFactory(data);
     
     return { 
         token, 

@@ -19,7 +19,6 @@ export const adminLoginController = tryCatch(async(req, res, next)=> {
         return res.redirect('dash-board');
 
     } catch (error) {
-        console.log({error})
         req.flash('error', error.message)
         return res.redirect('/api/admins/login');
     }

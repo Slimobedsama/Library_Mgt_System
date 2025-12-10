@@ -28,19 +28,16 @@ main {
 main nav {
     width: 15%;
     height: 100vh;
-    padding: 10px 20px;
-    /* border-right: 1px solid #eee; */
     background-color: #eee;
 }
 main nav ul {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 main nav li {
     list-style-type: none;
     font-weight: 500;
-    margin: 25px auto;
+    margin: 40px auto;
 }
 main nav li,
 main section div a, .add-librarian {
@@ -176,8 +173,18 @@ main section {
     background: #999;
 }
 
-/* MEDIA QUERY FOR MOBILE/SMALL SCREE */
-@media (max-width: 480px) {
+/* MEDIA QUERY FOR LANDSCAPE TABLETS & LAPTOP */
+@media (min-width: 769px) and (max-width: 1024px) {
+    main nav {
+        width: 20%;
+    }
+    main section {
+        width: 80%;
+    }
+}
+
+/* MEDIA QUERY FOR MOBILE/SMALL SCREEN & TABLETS*/
+@media (max-width: 768px) {
     header {
         padding: 20px 15px;
     }

@@ -1,9 +1,13 @@
 #body {
      min-height: 100vh;
      background: none;
+     font-family: "Poppins", sans-serif;
 }
 #body, a {
     color: #555;
+}
+h2, h3, h5 {
+    font-weight: 500;
 }
 a {
     text-decoration: none;
@@ -18,7 +22,6 @@ header {
 }
 header h5 {
     font-size: 1.02em;
-    font-weight: 500;
 }
 main {
     display: flex;
@@ -34,9 +37,11 @@ main nav ul {
     display: flex;
     flex-direction: column;
 }
+li, td {
+    font-weight: 300;
+}
 main nav li {
     list-style-type: none;
-    font-weight: 500;
     margin: 40px auto;
 }
 main nav li,
@@ -98,7 +103,7 @@ main section {
 
 .dashboard-table th {
     background: #f4f4f4;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .delete-btn {
@@ -223,6 +228,7 @@ main section {
     }
     main section {
         width: 100%;
+        /* padding: 0 20px; */
     }
     .dashboard-table {
         font-size: 0.85rem;

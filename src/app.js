@@ -12,6 +12,7 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import logger from './logger.js';
 import adminRouter from './services/admin/routes/admin.js';
+import adminViewRouter from './services/admin/routes/views/admin.views.js';
 import librarianRouter from './services/librarian/routes/librarian.js';
 import userRouter from './services/user/routes/user.js';
 import bookRouter from './services/book/routes/book.js';
@@ -86,6 +87,7 @@ app.use(
     })
   );
 // ROUTES MIDDLEWARES
+app.use('/admin', adminViewRouter);
 app.use('/api/admins', adminRouter);
 app.use('/api/librarians', librarianRouter);
 app.use('/api/users', userRouter);

@@ -7,12 +7,14 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "watch": "nodemon -e js,ejs,css"
+    "watch": "nodemon -e js,mjs,ejs,css",
+    "css": "tailwindcss -i ./src/public/css/input.css -o ./src/public/css/output.css     --watch",
+    "dev:full": "concurrently \"npm run dev\" \"npm run css\""
   },
   "author": "Okoro Ohwo Obed",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^6.0.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
@@ -29,7 +31,10 @@
     "winston-timestamp-colorize": "^1.1.0"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "concurrently": "^9.2.1",
     "connect-livereload": "^0.6.1",
-    "livereload": "^0.9.3"
+    "livereload": "^0.9.3",
+    "tailwindcss": "^4.2.1"
   }
 }

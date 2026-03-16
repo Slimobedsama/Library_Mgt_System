@@ -4,8 +4,8 @@ import { EXPIRES, RESET } from '../../../utils/maxAge.js';
 import tryCatch from '../../../utils/tryCatch.js';
 
 export const getEveryLibrarian = tryCatch(async(req, res)=> {
-        const allLibrarian = await getAllLibrarian();
-        return res.status(200).json(allLibrarian);
+        const { librarians, totalLibrarians } = await getAllLibrarian();
+        return res.status(200).json({ librarians, totalLibrarians });
 });
 
 export const getOneLibrarian = tryCatch(async(req, res)=> {

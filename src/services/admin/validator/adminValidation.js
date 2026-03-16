@@ -15,7 +15,7 @@ const validateAdminLogin =
 
             req.flash('error', 'Incorrect email or password');
             req.flash('email', req.body.email || '');
-            return res.redirect('/api/admins/login');
+            return res.redirect('/admin/login');
         //    return res.render('./admin/login', 
         //         {
         //             title: 'Admin Login',
@@ -41,7 +41,7 @@ const validateAdminEmail =
 
             req.flash('error', 'Enter a valid email');
             req.flash('email', req.body.email || '');
-            return res.redirect('/api/admins/forgotten-password');
+            return res.redirect('/admin/forgotten-password');
         }
         return next();
     }
@@ -57,7 +57,7 @@ const validateAdminOtp =
             logger.error(errors.array().map( error => error.msg));
 
             req.flash('error', 'Enter a value');
-            return res.redirect('/api/admins/forgotten-password-otp');
+            return res.redirect('/admin/forgotten-password-otp');
         }
         return next();
     }
@@ -73,7 +73,7 @@ const validatePasswordReset =
             const errMsg = errors.array().map( error => error.msg).join(', ')
             logger.error(errors.array().map( error => error.msg))
             req.flash('error', errMsg)
-            return res.redirect('/api/admins/reset-password')
+            return res.redirect('/admin/reset-password')
             // return res.status(400).json({ errors: errors.array().map( error => error.msg) });
         }
         return next();

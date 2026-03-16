@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%- include('../partials/head') %>
-<body id="body">
+<body id="body" class="<%= page %>">
     <header>
         <h2>Admin Dashboard</h2>
         <% if(name) { %>
@@ -10,17 +10,53 @@
     <main>
         <nav class="side-bar">
             <ul>
-                <li><a href="#"><i class="fa fa-user"></i>Users</a></li>
-                <li><a href="#"><i class="fa fa-book"></i>Books</a></li>
-                <li><a href="/api/admins/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
+                <li class="<%= page === 'Home'? 'active' : '' %>">
+                    <a href="#" class="nav-links"><i class="fa fa-home"></i>Home</a>
+                </li>
+                <li class="<%= page === 'Books'? 'active' : '' %>">
+                    <a href="#" class="nav-links"><i class="fa fa-book"></i>Books</a>
+                </li>
+                <li class="<%= page === 'Users'? 'active' : '' %>">
+                    <a href="#" class="nav-links"><i class="fa fa-user"></i>Users</a>
+                </li>
+                <li class="<%= page === 'Order'? 'active' : '' %>">
+                    <a href="#" class="nav-links"><i class="fa fa-archive"></i>Order</a>
+                </li>
+                <li>
+                    <a href="/api/admins/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
             </ul>
         </nav>
         <section>
-            <div class="lib-headers">
+            <div class="cards">
+                <div>
+                    <h4>Librarians</h4>
+                    <p> <%= totalLibrarians %> </p>
+                </div>
+                <div>
+                    <h4>Users</h4>
+                    <p>0</p>
+                </div>
+                <div>
+                    <h4>Books</h4>
+                    <p>0</p>
+                </div>
+                <div>
+                    <h4>Orders</h4>
+                    <p>0</p>
+                </div>
+            </div>
+            <div class="admin-actions">
+                <div id="open-modal" class="add-librarian">Add Librarian</div>
+                <div><a href="#">View Librarians</a></div>
+                <div><a href="#"><i class="fa fa-user"></i>View Users</a></div>
+                <div><a href="#"><i class="fa fa-book"></i>View Books</a></div>
+                <div><a href="#"><i class="fa fa-archive"></i>View Orders</a></div>
+            </div>
+            <!-- <div class="lib-headers">
                 <h3>Librarians</h3>
                 <div><button id="open-modal" class="add-librarian">Add Librarian</button></div>
-            </div>
-            <div class="table-wrapper">
+            </div> -->
+            <!-- <div class="table-wrapper">
                 <table class="dashboard-table">
                     <thead>
                         <tr>
@@ -52,7 +88,7 @@
                         <% }) %>
                     </tbody>
                 </table>
-            </div>
+            </div> -->
             <div id="add-librarian" class="modal-overlay hidden">
                 <div class="modal-box">
                     <h3>Add Librarian</h3>

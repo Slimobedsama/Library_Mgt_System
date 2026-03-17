@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%- include('../partials/head') %>
 
-<body class="min-h-screen flex flex-col bg-cover bg-center font-[Poppins]"
+<body class="min-h-screen flex flex-col bg-cover bg-center font-[Poppins] text-gray-700"
 style="background-image: url('/images/jonathan-francisca-BpbkLACP64M-unsplash.jpg')">
 
     <!-- Main Content -->
@@ -19,6 +19,7 @@ style="background-image: url('/images/jonathan-francisca-BpbkLACP64M-unsplash.jp
                 type="email"
                 name="email"
                 placeholder="Email"
+                value="<%= email %>"
                 required
                 class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-600 outline-none"
                 />

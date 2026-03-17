@@ -6,13 +6,12 @@ import RefreshToken from '../model/refresh.js';
 
 
 // LOGIN
-export const adminLoginController = tryCatch(async(req, res, next)=> {
+export const adminLoginController = tryCatch(async(req, res)=> {
     try {
-        const { token, refreshToken, message, firstName } = await loginFactory(req.body);
+        const { token, refreshToken, message } = await loginFactory(req.body);
         
         setSignedCookie(res, 'admin', token, { maxAge: EXPIRES });
         setSignedCookie(res, 'adminRefresh', refreshToken, { maxAge: REFRESH_EXPIRES });
-        setSignedCookie(res, 'firstName', firstName, { maxAge: EXPIRES });
         
         req.flash('success', message);
         return res.redirect('/admin/dash-board');

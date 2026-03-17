@@ -12,14 +12,14 @@ export const loginView = (req, res)=> {
 }
 
 export const dashboardView = async(req, res)=> {
-    const name = req.signedCookies.firstName || '';
+    const admin = res.locals.admin.firstName || '';
     const { librarians, totalLibrarians } = await getAllLibrarian();
     
     res.render('admin/dashboard', 
         { 
             title: 'Admin Dash Board',
             page: 'Home',
-            name,
+            admin,
             librarians,
             totalLibrarians,
             lastName: req.flash('lastName') || '',

@@ -19,6 +19,7 @@ import bookRouter from './services/book/routes/book.js';
 import orderRouter from './services/order/routes/order.js';
 import errorHandler from './middleware/errorHandler.js';
 import methodOverride from 'method-override';
+import expressLayouts from 'express-ejs-layouts';
 
 const morganFormat = ":method :url :status :response-time ms";
 const __filename = fileURLToPath(import.meta.url);
@@ -51,6 +52,8 @@ app.use(express.static(join(__dirname, 'public')));
 // TEMPLATE ENGINE
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', false);
 app.use(methodOverride('_method'));
 // COOKIE MIDDLEWARE
 app.use(cookieParser(process.env.COOKIE_SECRET));

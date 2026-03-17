@@ -5,6 +5,7 @@ export const loginView = (req, res)=> {
     res.render('auth/login', 
         {
             title: 'Admin Login',
+            layout: 'layouts/auth-layout',
             // error: res.locals.error[0], //Not rendered because the use of toastr
             email: req.flash('email')[0] || ''
         }
@@ -34,6 +35,7 @@ export const forgottenPasswordView = (req, res)=> {
     res.render('auth/forgot', 
         { 
             title: 'Forgotten Password',
+            layout: 'layouts/auth-layout',
             email: req.flash('email') || ''
 
          }
@@ -54,9 +56,19 @@ export const adminResendOtpController = async(req, res)=> {
 }
 
 export const verifyOtpView = (req, res)=> {
-    res.render('auth/otp', { title: 'Verify Otp' });
+    res.render('auth/otp', 
+        { 
+            title: 'Verify Otp', 
+            layout: 'layouts/auth-layout', 
+        }
+    );
 }
 
 export const resetPasswordView = (req, res)=> {
-    res.render('auth/reset', { title: 'Reset Password' });
+    res.render('auth/reset', 
+        { 
+            title: 'Reset Password', 
+            layout: 'layouts/auth-layout', 
+        }
+    );
 }

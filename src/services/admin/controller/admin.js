@@ -77,7 +77,6 @@ export const adminLogoutContoller = async(req, res)=> {
 
     res.clearCookie('admin');
     res.clearCookie('adminRefresh');
-    res.clearCookie('firstName');
 
     res.redirect('/admin/login');
 }

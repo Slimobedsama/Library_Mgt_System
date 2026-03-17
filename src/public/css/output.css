@@ -11,6 +11,7 @@
     --color-cyan-600: oklch(60.9% 0.126 221.723);
     --color-cyan-700: oklch(52% 0.105 223.128);
     --color-cyan-800: oklch(45% 0.085 224.283);
+    --color-purple-700: oklch(49.6% 0.265 301.924);
     --color-slate-700: oklch(37.2% 0.044 257.287);
     --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
@@ -296,6 +297,9 @@
   }
   .bg-gray-200 {
     background-color: var(--color-gray-200);
+  }
+  .bg-purple-700 {
+    background-color: var(--color-purple-700);
   }
   .bg-white\/90 {
     background-color: color-mix(in srgb, #fff 90%, transparent);

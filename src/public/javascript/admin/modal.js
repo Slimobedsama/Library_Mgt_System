@@ -5,6 +5,7 @@ const errorOpenModalBtn = document.querySelector('.modal-submit');
 const firstName = document.querySelector('[name="firstName"]');
 const lastName = document.querySelector('[name="lastName"]');
 const email = document.querySelector('[name="email"]');
+const links = document.querySelectorAll('.nav-links')
 
 
 openModalBtn.addEventListener('click', ()=> modalBtn.classList.remove('hidden'));
@@ -48,4 +49,11 @@ firstName.addEventListener('input', (e)=> {
         return word
     })
     .join(' ');
+});
+
+links.forEach(link => {
+    link.addEventListener('click', function() {
+        links.forEach( linked => linked.classList.remove('active'));
+        this.classList.add('active')
+    })
 });

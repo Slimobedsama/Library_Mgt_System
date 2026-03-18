@@ -88,7 +88,8 @@ const librarianAuth = (req, res, next)=> {
 
 // CHECK FOR CURRENT ADMIN
 const checkAdmin = (req, res, next)=> {
-    const token = req.cookies.admin;
+    const token = req.signedCookies.admin;
+    
     if(token) {
         jwt.verify(token, process.env.JWT_ADM, async(err, decoded)=> {
             if(err) {

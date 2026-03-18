@@ -36,7 +36,6 @@ export const loginFactory = async(body)=> {
         token, 
         refreshToken, 
         message: 'Login successful', 
-        firstName: admin.firstName 
     };
 }
 

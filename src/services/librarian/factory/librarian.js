@@ -8,12 +8,16 @@ import Librarian from "../model/librarian.js";
 
 export const getAllLibrarian = async function() {
     const allLibrarian = await LibrarianDao.allLibrian();
+    const totalLibrarians = await LibrarianDao.librarianCount();
     
     if(!allLibrarian) {
         throw ApiErrors.internalServer('Error fetching Librarians');
     }
     
-    return allLibrarian;
+    return {
+        librarians: allLibrarian,
+        totalLibrarians
+    };
 }
 
 export const getSingleLibrarian = async function(params) {

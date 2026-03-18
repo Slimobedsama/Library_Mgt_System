@@ -12,12 +12,14 @@ import session from 'express-session';
 import flash from 'connect-flash';
 import logger from './logger.js';
 import adminRouter from './services/admin/routes/admin.js';
+import adminViewRouter from './services/admin/routes/views/admin.views.js';
 import librarianRouter from './services/librarian/routes/librarian.js';
 import userRouter from './services/user/routes/user.js';
 import bookRouter from './services/book/routes/book.js';
 import orderRouter from './services/order/routes/order.js';
 import errorHandler from './middleware/errorHandler.js';
 import methodOverride from 'method-override';
+import expressLayouts from 'express-ejs-layouts';
 
 const morganFormat = ":method :url :status :response-time ms";
 const __filename = fileURLToPath(import.meta.url);
@@ -50,6 +52,8 @@ app.use(express.static(join(__dirname, 'public')));
 // TEMPLATE ENGINE
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', false);
 app.use(methodOverride('_method'));
 // COOKIE MIDDLEWARE
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -86,6 +90,7 @@ app.use(
     })
   );
 // ROUTES MIDDLEWARES
+app.use('/admin', adminViewRouter);
 app.use('/api/admins', adminRouter);
 app.use('/api/librarians', librarianRouter);
 app.use('/api/users', userRouter);

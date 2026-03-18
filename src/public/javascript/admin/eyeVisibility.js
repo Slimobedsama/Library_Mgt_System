@@ -1,20 +1,22 @@
 // let password = document.querySelector('#password');
-let toggleEye = document.querySelector('.fa-eye');
+let eyeOpened = document.querySelector('.eye-open');
+let eyeClosed = document.querySelector('.eye-close');
 // const form = document.querySelector('#form');
 // let email = document.querySelector('#email');
 // let emailMsg = document.querySelector('.email-msg');
 // let passwordMsg = document.querySelector('.password-msg');
 
 function passwordVisiblity() {
-    const passwordInput = document.querySelector('#password');
+    const passwordInput = document.querySelector('.password');
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        toggleEye.classList.remove('fa-eye');
-        toggleEye.classList.add('fa-eye-slash');
+
+        eyeClosed.classList.add('hidden');
+        eyeOpened.classList.remove('hidden');
     } else {
         passwordInput.type = 'password';
-        toggleEye.classList.remove('fa-eye-slash');
-        toggleEye.classList.add('fa-eye');
+        eyeOpened.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
     }
 }
 
@@ -62,5 +64,6 @@ function passwordVisiblity() {
 // }
 
 // EVENT LISTENERS
-toggleEye.addEventListener('click', passwordVisiblity);
+eyeOpened.addEventListener('click', passwordVisiblity);
+eyeClosed.addEventListener('click', passwordVisiblity);
 // form.addEventListener('submit', loginForm);

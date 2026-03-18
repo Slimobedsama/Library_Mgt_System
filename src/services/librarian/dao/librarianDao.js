@@ -23,6 +23,10 @@ class LibrarianDao {
         return await Librarian.findByIdAndDelete(id);
     }
 
+    static async librarianCount() {
+        return await Librarian.countDocuments();
+    }
+
 }
 
 export default LibrarianDao;
